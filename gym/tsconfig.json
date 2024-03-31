@@ -36,7 +36,10 @@
       ],
       "@routes/*": [
         "./src/routes/*"
-      ]
+      ],
+      "@types/*": [
+        "./src/@types/*"
+      ] 
     }
   }
 }
