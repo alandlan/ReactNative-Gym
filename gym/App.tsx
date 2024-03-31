@@ -3,6 +3,7 @@ import { PaperProvider } from 'react-native-paper';
 import { theme } from '@theme/index';
 import { Loading } from '@components/Loading';
 import {Roboto_400Regular, Roboto_700Bold, useFonts} from '@expo-google-fonts/roboto';
+import { SignIn } from '@screens/Signin';
 
 export default function App() {
 
@@ -16,7 +17,7 @@ export default function App() {
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
 
       {fontsLoaded ? 
-        <View style={{flex: 1,justifyContent: "center", alignItems: "center"}}></View> :
+        <SignIn />:
         <Loading />
       }
     </PaperProvider>
