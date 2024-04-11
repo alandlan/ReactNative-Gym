@@ -7,20 +7,29 @@ import { Text,TextInput } from "react-native-paper";
 import { Input } from "@components/Input";
 import React, { useState } from "react";
 import { Button } from "@components/Button";
+import { useNavigation } from "@react-navigation/native";
+import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 
 export function SignIn() {
     const [password, setPassword] = useState('');  
     const [isPasswordSecure, setIsPasswordSecure] = useState(true);
 
+    const navigation = useNavigation<AuthNavigatorRoutesProps>();
+
+    function handleNavigateToSignUp() {
+        navigation.navigate('signUp');
+    }
+
     return (
         <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
             <View style={{
                 flex:1, 
-                backgroundColor:theme.colors.gray700,
+                // backgroundColor:theme.colors.gray700,
                 padding:20,
             }}>
                 <Image 
                     source={BackgroundImg} 
+                    defaultSource={BackgroundImg}
                     alt="Background"
                     resizeMode="contain"
                     style={{position:'absolute'}}
@@ -83,7 +92,7 @@ export function SignIn() {
                         <Button 
                             children="CriarConta"
                             mode="outlined" 
-                            title="Criar Conta" onPress={() => {}} 
+                            title="Criar Conta" onPress={handleNavigateToSignUp} 
                         />
                     </View>
                 </View>
