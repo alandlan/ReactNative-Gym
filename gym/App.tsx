@@ -4,6 +4,7 @@ import { theme } from '@theme/index';
 import { Loading } from '@components/Loading';
 import {Roboto_400Regular, Roboto_700Bold, useFonts} from '@expo-google-fonts/roboto';
 import { SignIn } from '@screens/Signin';
+import { SignUp } from '@screens/Signup';
 
 export default function App() {
 
@@ -17,7 +18,7 @@ export default function App() {
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
 
       {fontsLoaded ? 
-        <SignIn />:
+        <SignUp />:
         <Loading />
       }
     </PaperProvider>
