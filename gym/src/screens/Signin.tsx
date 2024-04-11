@@ -16,8 +16,9 @@ export function SignIn() {
         <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
             <View style={{
                 flex:1, 
-                backgroundColor:theme.colors.gray700}}
-            >
+                backgroundColor:theme.colors.gray700,
+                padding:20,
+            }}>
                 <Image 
                     source={BackgroundImg} 
                     alt="Background"
@@ -51,9 +52,7 @@ export function SignIn() {
                     </Text>
 
                     <View style={{
-                        width:"100%",
-                        padding:20,
-                        
+                        width:"100%"
                     }}>
                         <Input label="E-mail" keyboardType="email-address" />
                         <Input 
