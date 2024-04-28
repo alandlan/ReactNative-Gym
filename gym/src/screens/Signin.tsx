@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { Button } from "@components/Button";
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
+import { Heading } from "@components/Commom";
 
 export function SignIn() {
     const [password, setPassword] = useState('');  
@@ -24,7 +25,6 @@ export function SignIn() {
         <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
             <View style={{
                 flex:1, 
-                // backgroundColor:theme.colors.gray700,
                 padding:20,
             }}>
                 <Image 
@@ -51,14 +51,9 @@ export function SignIn() {
                     alignItems:'center',
                     
                 }}>
-                    <Text style={{
-                        color: theme.colors.gray100,
-                        fontSize: theme.fontSizes.md,
-                        fontFamily: theme.fonts.heading,
-                    
-                    }}>
+                    <Heading>
                         Acesse sua conta
-                    </Text>
+                    </Heading>
 
                     <View style={{
                         width:"100%"
@@ -80,15 +75,12 @@ export function SignIn() {
                             title="Acessar" onPress={() => {}} 
                         />
 
-                        <Text style={{
-                            color: theme.colors.gray100,
-                            fontSize: theme.fontSizes.md,
-                            fontFamily: theme.fonts.heading,
+                        <Heading style={{
                             marginBottom: 16,
                             marginTop: 56
                         }}>
                             Não tem uma conta?
-                        </Text>
+                        </Heading>
                         <Button 
                             children="CriarConta"
                             mode="outlined" 

@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { Button } from "@components/Button";
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
+import { Heading } from "@components/Commom";
 
 export function SignUp() {
     const [password, setPassword] = useState('');  
@@ -51,14 +52,9 @@ export function SignUp() {
                     alignItems:'center',
                     
                 }}>
-                    <Text style={{
-                        color: theme.colors.gray100,
-                        fontSize: theme.fontSizes.md,
-                        fontFamily: theme.fonts.heading,
-                    
-                    }}>
+                    <Heading>
                         Crie sua conta
-                    </Text>
+                    </Heading>
 
                     <View style={{
                         width:"100%",
