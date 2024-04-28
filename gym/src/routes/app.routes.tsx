@@ -1,4 +1,6 @@
+import { Platform } from "react-native";
 import { createBottomTabNavigator, BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import {theme} from '@theme/index';
 
 import HomeSvg from "@assets/home.svg";
 import HistorySvg from "@assets/history.svg";
@@ -25,6 +27,14 @@ export function AppRoutes() {
         <Navigator screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
+            tabBarActiveTintColor: theme.colors.green500,
+            tabBarInactiveTintColor: theme.colors.gray200,
+            tabBarStyle: {
+                backgroundColor: theme.colors.gray600,
+                borderTopWidth: 0,
+                height: Platform.OS === 'ios' ? 80 : 60,
+                // height: 64,
+            }
         }}>
             <Screen 
                 name="home" 
@@ -56,6 +66,7 @@ export function AppRoutes() {
             <Screen 
                 name="exercise" 
                 component={Exercise} 
+                options={{tabBarButton: () => null}}
             />
         </Navigator>
     );
