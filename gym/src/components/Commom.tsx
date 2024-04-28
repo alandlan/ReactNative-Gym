@@ -1,44 +1,36 @@
-import { View } from "react-native";
+import { View, ViewStyle } from "react-native";
 import { Text } from "react-native-paper";
 
 import { theme } from "@theme/index";
+import React from "react";
 
+interface CommonProps {
+    children: React.ReactNode;
+    style?: ViewStyle;
+}
 
-export function HStack(
-    props: {
-        children: React.ReactNode;
-        style?: any;
-    }
-) {
+const HStack: React.FC<CommonProps> = ({children,style}) => {
     return (
-        <View style={{justifyContent:'center', alignItems:'flex-start', flexDirection: "row", ...props.style}}>
-            {props.children}
+        <View style={{justifyContent:'center', alignItems:'flex-start', width: "100%", flexDirection: "row", ...style}}>
+            {children}
         </View>
     );
 }
 
-export function VStack(
-    props: {
-        children: React.ReactNode;
-        style?: any;
-    }
-) {
+const VStack: React.FC<CommonProps> = ({children,style}) => {
     return (
-        <View style={{justifyContent:'center', alignItems:'flex-start', flexDirection: "column", ...props.style}}>
-            {props.children}
+        <View style={{justifyContent:'center', alignItems:'flex-start',width: "100%", flexDirection: "column", ...style}}>
+            {children}
         </View>
     );
 }
 
-export function Heading(
-    props: {
-        children: React.ReactNode;
-        style?: any;
-    }
-) {
+const Heading: React.FC<CommonProps> = ({children,style}) => {
     return (
-        <Text style={{color: theme.colors.gray100, fontFamily: theme.fonts.heading, fontSize: theme.fontSizes.md}}>
-            {props.children}
+        <Text style={{color: theme.colors.gray100, fontFamily: theme.fonts.heading, fontSize: theme.fontSizes.md, ...style}}>
+            {children}
         </Text>
     );
 }
+
+export { HStack, VStack, Heading };
