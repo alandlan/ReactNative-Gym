@@ -1,5 +1,6 @@
-import { View } from "react-native";
-import { Text } from "react-native-paper";
+import { View, Text, TouchableOpacity } from "react-native";
+import { MaterialIcons} from "@expo/vector-icons";
+// import { Text } from "react-native-paper";
 
 import { theme } from "@theme/index";
 import { VStack,Heading, HStack } from "./Commom";
@@ -22,6 +23,11 @@ export function HomeHeader() {
                 <Text style={{color: theme.colors.gray100, fontSize: theme.fontSizes.md}}>Ola</Text>
                 <Heading >Alan</Heading>
             </VStack>
+            <TouchableOpacity>
+
+            <MaterialIcons name="logout" size={24} color={theme.colors.gray200} />
+            </TouchableOpacity>
         </HStack>
+
     );
 }
