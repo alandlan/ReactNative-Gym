@@ -1,13 +1,10 @@
 import { 
-  Input as GluestackInput,
   VStack,
   ImageBackground, 
   Text, 
   Center, 
   Heading, 
   View, 
-  InputSlot, 
-  InputIcon,
   MailIcon, 
   EyeOffIcon } from "@gluestack-ui/themed";
 

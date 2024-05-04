@@ -3,8 +3,6 @@ import { Input as GluestackInput,InputField, InputIcon, InputSlot, MailIcon } fr
 import React, { useState } from 'react';
 import { KeyboardType, TextInputProps } from 'react-native';
 
-
-//create inputprops extending textinputprops
 export interface InputProps extends TextInputProps{
     placeholder: string;
     icon: any;
