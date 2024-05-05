@@ -8,7 +8,7 @@ type ButtonProps = PressableProps & {
 }
 
 
-export function Button({title,variant = "primary", ...rest}:ButtonProps){
+export function Button({title,variant = 'primary', ...rest}:ButtonProps){
     return (
         <ButtonGroup>
             <ButtonBase 
