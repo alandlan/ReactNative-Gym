@@ -4,21 +4,28 @@ import {PressableProps} from 'react-native';
 
 type ButtonProps = PressableProps & {
     title: string;
+    variant?: 'primary' | 'secondary';
 }
 
 
-export function Button({title, ...rest}:ButtonProps){
+export function Button({title,variant = "primary", ...rest}:ButtonProps){
     return (
         <ButtonGroup>
             <ButtonBase 
                 w="$full"
                 h={56}
-                bg="$green700"
+                bg={variant === "secondary" ? "$transparent" : "$green700" }
+                borderWidth={variant === "secondary" ? 1 : 0}
+                borderColor={"$green700"}
                 rounded={"$sm"}
-                $active-bg={'$green500'}
+                $active-bg={variant === "secondary" ? "$trueGray500" : '$green500'}
                 {...rest}
             >
-                <ButtonText>{title}</ButtonText>
+                <ButtonText
+                    color={variant === "secondary" ? "$green500" : "$white"}
+                >
+                    {title}
+                </ButtonText>
             </ButtonBase>
         </ButtonGroup>
     )
