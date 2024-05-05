@@ -14,15 +14,22 @@ import BackgroundImage from "@assets/background.png";
 import { Input } from "@components/Input";
 import { Dimensions,Image } from "react-native";
 import { Button } from "@components/Button";
+import { useNavigation } from "@react-navigation/native";
+import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 
 export function SignIn() {
   const { width,height } = Dimensions.get('window');
   const imageHeight = Image.resolveAssetSource(BackgroundImage).height;
 
-  return (
+  const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
+  function handleNavigateToSignUp(){
+    navigation.navigate("SignUp");
+  }
+
+  return (
     <ScrollView contentContainerStyle={{flexGrow:1}} showsVerticalScrollIndicator={false}>
-      <VStack bg="$trueGray800" flex={1} pb={40}>
+      <VStack flex={1} pb={40}>
           <ImageBackground 
                 source={BackgroundImage} 
                 defaultSource={BackgroundImage}
@@ -62,7 +69,7 @@ export function SignIn() {
                   Não tem uma conta?
                 </Text>
 
-                <Button title="Criar Conta" variant="secondary" />
+                <Button title="Criar Conta" variant="secondary" onPress={handleNavigateToSignUp} />
               </Center>
 
             </View>

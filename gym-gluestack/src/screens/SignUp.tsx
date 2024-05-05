@@ -15,15 +15,22 @@ import BackgroundImage from "@assets/background.png";
 import { Input } from "@components/Input";
 import { Dimensions,Image } from "react-native";
 import { Button } from "@components/Button";
+import { useNavigation } from "@react-navigation/native";
 
 export function SignUp() {
   const { width,height } = Dimensions.get('window');
   const imageHeight = Image.resolveAssetSource(BackgroundImage).height;
 
+  const navigation = useNavigation();
+
+  function handlGoBack(){
+    navigation.goBack();
+  }
+
   return (
 
     <ScrollView contentContainerStyle={{flexGrow:1}} showsVerticalScrollIndicator={false}>
-      <VStack bg="$trueGray800" flex={1} pb={40}>
+      <VStack flex={1} pb={40}>
           <ImageBackground 
                 source={BackgroundImage} 
                 defaultSource={BackgroundImage}
@@ -60,8 +67,8 @@ export function SignUp() {
                 <Button title="Criar e Acessar" variant="primary" />
               </Center >
 
-              <Center mt={24}>
-                <Button  title="Voltar para o Login" variant="secondary" />
+              <Center mt={80}>
+                <Button  title="Voltar para o Login" variant="secondary" onPress={handlGoBack}/>
               </Center>
 
             </View>
