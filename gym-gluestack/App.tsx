@@ -1,9 +1,8 @@
 import { GluestackUIProvider, StatusBar } from "@gluestack-ui/themed"
 import { config } from "@gluestack-ui/config" // Optional if you want to use default theme
-import { SignIn } from "./src/screens/SignIn"
 import {Roboto_400Regular, Roboto_700Bold, useFonts} from '@expo-google-fonts/roboto';
 import { Loading } from "./src/components/Loading";
-import { SignUp } from "@screens/SignUp";
+import { Routes } from "@routes/index";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -19,7 +18,7 @@ export default function App() {
         translucent
       />
       {fontsLoaded ? 
-        <SignUp /> :
+        <Routes /> :
         <Loading />
       }
     </GluestackUIProvider>

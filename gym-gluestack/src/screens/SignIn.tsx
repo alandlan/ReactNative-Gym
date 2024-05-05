@@ -57,7 +57,7 @@ export function SignIn() {
                 <Button title="Acessar" variant="primary" />
               </Center>
               
-              <Center mt={24}>
+              <Center mt={80}>
                 <Text color="$trueGray100" fontSize={"$sm"} fontFamily={"$body"}>
                   Não tem uma conta?
                 </Text>
