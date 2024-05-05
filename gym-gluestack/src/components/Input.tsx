@@ -1,6 +1,6 @@
-import { Input as GluestackInput,InputField, InputIcon, InputSlot, MailIcon } from '@gluestack-ui/themed';
+import { Input as GluestackInput,InputField, InputIcon, InputSlot } from '@gluestack-ui/themed';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { KeyboardType, TextInputProps } from 'react-native';
 
 export interface InputProps extends TextInputProps{
@@ -11,17 +11,6 @@ export interface InputProps extends TextInputProps{
 
 
 export function Input({placeholder,icon,keyboardType,...rest} : InputProps){
-    const [isFocused, setIsFocused] = useState(false);
-
-    const handleFocus = () => {
-        setIsFocused(true);
-    };
-
-    const handleBlur = () => {
-        setIsFocused(false);
-    };
-
-    const borderColor = isFocused ? '$green800' : '$trueGray700';
 
     return (
         <GluestackInput
@@ -29,7 +18,8 @@ export function Input({placeholder,icon,keyboardType,...rest} : InputProps){
               h={52}
               px={16}
               mb={16}
-              borderColor={borderColor}
+              borderColor={"$trueGray700"}
+              $focus-borderColor='$green700'
             >
               <InputSlot>
                   <InputIcon as={icon} />
@@ -41,10 +31,7 @@ export function Input({placeholder,icon,keyboardType,...rest} : InputProps){
                 fontSize="$md"
                 fontFamily='$body'
                 h={52}
-                // borderColor='$green800'
                 keyboardType={keyboardType ? keyboardType : 'default'}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
                 {...rest}
             />
         </GluestackInput>

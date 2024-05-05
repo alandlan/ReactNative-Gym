@@ -1,4 +1,4 @@
-import { GluestackUIProvider, Text, Box, StatusBar } from "@gluestack-ui/themed"
+import { GluestackUIProvider, StatusBar } from "@gluestack-ui/themed"
 import { config } from "@gluestack-ui/config" // Optional if you want to use default theme
 import { SignIn } from "./src/screens/SignIn"
 import {Roboto_400Regular, Roboto_700Bold, useFonts} from '@expo-google-fonts/roboto';
