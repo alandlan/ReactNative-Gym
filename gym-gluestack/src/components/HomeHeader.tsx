@@ -1,5 +1,8 @@
-import { HStack, Heading, Text, VStack } from "@gluestack-ui/themed";
+import { HStack, Heading, Text, VStack,Icon } from "@gluestack-ui/themed";
 import { UserPhoto } from "./UserPhoto";
+import {MaterialIcons} from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
+import { LogOut } from "lucide-react-native";
 
 
 export function HomeHeader() {
@@ -10,15 +13,20 @@ export function HomeHeader() {
             source={{uri: "https://avatars.githubusercontent.com/u/20859616?s=400&v=4"}} 
             alt="userPhoto"
             style={{marginRight: 8}}/>
-        <VStack>
-        <Text color="$trueGray100" fontSize={"$md"}>
-            Ola
-        </Text>
+        <VStack flex={1}>
+            <Text color="$trueGray100" fontSize={"$md"}>
+                Ola
+            </Text>
 
-        <Heading color="$trueGray100" fontSize={"$md"}>
-            Alan Martins
-        </Heading>
+            <Heading color="$trueGray100" fontSize={"$md"}>
+                Alan Martins
+            </Heading>
         </VStack>
+        
+        <TouchableOpacity>
+            <Icon as={LogOut} size={"xl"}  color={"$trueGray100"}/>
+        </TouchableOpacity>
+        
     </HStack>
   );
 }

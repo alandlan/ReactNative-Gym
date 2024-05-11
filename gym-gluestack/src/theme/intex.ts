@@ -34,6 +34,9 @@ export const gluestackUIConfig = createConfig({
       '4': 30,
       '14':56,
       '33': 148
+    },
+    size:{
+      "2lg": 200,
     }
   },  
 })
