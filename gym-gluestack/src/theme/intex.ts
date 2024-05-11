@@ -30,6 +30,8 @@ export const gluestackUIConfig = createConfig({
       'xl': 20,
     },
     space: {
+      '2': 20,
+      '4': 30,
       '14':56,
       '33': 148
     }
