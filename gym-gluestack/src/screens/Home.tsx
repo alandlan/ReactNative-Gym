@@ -1,6 +1,7 @@
+import { ExerciseCard } from "@components/ExerciseCard";
 import { Group } from "@components/Group";
 import { HomeHeader } from "@components/HomeHeader";
-import { FlatList, HStack, ScrollView, VStack } from "@gluestack-ui/themed";
+import { FlatList, HStack, Heading, Text, VStack } from "@gluestack-ui/themed";
 import { useState } from "react";
 
 
@@ -27,6 +28,18 @@ export function Home() {
           my={16}
           maxHeight={32}
         />
+
+        <VStack flex={1} px={16}>
+          <HStack justifyContent="space-between" marginBottom={10}>
+            <Heading color="$trueGray200" fontSize="$md">Exercícios</Heading>
+
+            <Text color="$trueGray200" fontSize={"$md"}>4</Text>
+          </HStack>
+
+          <ExerciseCard />
+          <ExerciseCard />
+        </VStack>
+        
 
           
     </VStack>
