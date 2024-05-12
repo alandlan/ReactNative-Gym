@@ -4,12 +4,13 @@ import { PressableProps } from "react-native";
 
 type Props = PressableProps & {
     name: string;
+    isActive: boolean;
 }
 
-export function Group({name, ...rest}: Props) {
+export function Group({name,isActive, ...rest}: Props) {
   return (
     <Pressable
-        mr={3}
+        mr={9}
         w={96}
         h={32}
         bg="$trueGray600"
@@ -17,10 +18,14 @@ export function Group({name, ...rest}: Props) {
         justifyContent="center"
         alignItems="center"
         overflow="hidden"
+        borderColor={isActive ? "$green500" : "$trueGray800"}
+        borderWidth={isActive ? 1 : 0}
+        $active-borderColor= "$green500"
+        $active-borderWidth={1}
         {...rest}
     >
         <Text
-            color="$trueGray200"
+            color={isActive ? "$green500" : "$trueGray200"}
             textTransform="uppercase"
             fontSize="$xs"
             fontWeight="$bold"
