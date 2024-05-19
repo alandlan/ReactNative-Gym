@@ -1,8 +1,8 @@
 import { GluestackUIProvider, StatusBar } from "@gluestack-ui/themed"
-import { config } from "@gluestack-ui/config" // Optional if you want to use default theme
 import {Roboto_400Regular, Roboto_700Bold, useFonts} from '@expo-google-fonts/roboto';
 import { Loading } from "./src/components/Loading";
 import { Routes } from "@routes/index";
+import {config} from "./config/gluestack-ui.config"
 
 export default function App() {
   const [fontsLoaded] = useFonts({

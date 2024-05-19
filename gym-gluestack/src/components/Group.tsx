@@ -13,19 +13,19 @@ export function Group({name,isActive, ...rest}: Props) {
         mr={9}
         w={96}
         h={32}
-        bg="$trueGray600"
+        bg="$gray600"
         rounded={"$md"}
         justifyContent="center"
         alignItems="center"
         overflow="hidden"
-        borderColor={isActive ? "$green500" : "$trueGray800"}
+        borderColor={isActive ? "$green500" : "$gray800"}
         borderWidth={isActive ? 1 : 0}
         $active-borderColor= "$green500"
         $active-borderWidth={1}
         {...rest}
     >
         <Text
-            color={isActive ? "$green500" : "$trueGray200"}
+            color={isActive ? "$green500" : "$gray200"}
             textTransform="uppercase"
             fontSize="$xs"
             fontWeight="$bold"

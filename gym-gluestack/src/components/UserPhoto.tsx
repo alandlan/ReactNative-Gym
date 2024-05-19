@@ -12,7 +12,7 @@ export function UserPhoto({size, ...props}: Props){
             h={size}
             rounded={"$full"}
             borderWidth={2}
-            borderColor={"$trueGray400"}
+            borderColor={"$gray400"}
             {...props}
             />
     )

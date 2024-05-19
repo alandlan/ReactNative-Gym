@@ -14,11 +14,11 @@ export function Input({placeholder,icon,keyboardType,...rest} : InputProps){
 
     return (
         <GluestackInput
-              bg='$trueGray700'
+              bg='$gray700'
               h={52}
               px={16}
               mb={16}
-              borderColor={"$trueGray700"}
+              borderColor={"$gray700"}
               $focus-borderColor='$green700'
             >
               <InputSlot>
@@ -26,7 +26,7 @@ export function Input({placeholder,icon,keyboardType,...rest} : InputProps){
               </InputSlot>
             <InputField
                 placeholder={placeholder}
-                placeholderTextColor="$trueGray400"
+                placeholderTextColor="$gray400"
                 color="$white"
                 fontSize="$md"
                 fontFamily='$body'

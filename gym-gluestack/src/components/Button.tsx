@@ -18,7 +18,7 @@ export function Button({title,variant = 'primary', ...rest}:ButtonProps){
                 borderWidth={variant === "secondary" ? 1 : 0}
                 borderColor={"$green700"}
                 rounded={"$sm"}
-                $active-bg={variant === "secondary" ? "$trueGray500" : '$green500'}
+                $active-bg={variant === "secondary" ? "$gray500" : '$green500'}
                 {...rest}
             >
                 <ButtonText

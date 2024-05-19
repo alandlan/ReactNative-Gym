@@ -46,13 +46,13 @@ export function SignUp() {
               <Center my={96}>
                 <LogoSvg />
 
-                <Text color="$trueGray100" fontSize={"$sm"}>
+                <Text color="$gray100" fontSize={"$sm"}>
                     Treine sua mente e o seu corpo
                 </Text>
               </Center>
 
               <Center mb={24}>
-                <Heading color="$trueGray100" fontSize={"$xl"} >
+                <Heading color="$gray100" fontSize={"$xl"} >
                   Crie sua conta
                 </Heading>
               </Center>

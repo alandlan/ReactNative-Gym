@@ -3,11 +3,17 @@ import {  config as defaultTheme } from "@gluestack-ui/config"
 import * as componentsTheme from '@gluestack-style/react';
 
 export const gluestackUIConfig = createConfig({
-    ...defaultTheme,
+  ...defaultTheme,
+  aliases: {
+    rounded: 'borderRadius',
+  },
   tokens: {
     colors: {
+      ...defaultTheme.tokens.colors,
+      abobrinha: '#FFD700',
       green700: '#00875F',
       green500: '#00B37E',
+      tuEGay800: '#1F2937',
       trueGray700: '#121214',
       trueGray600: '#202024',
       trueGray500: '#29292E',
@@ -19,10 +25,12 @@ export const gluestackUIConfig = createConfig({
       red: '#F75A68',
     },
     fonts:{
+      ...defaultTheme.tokens.fonts,
       heading: 'Roboto_700Bold',
       body: 'Roboto_400Regular',
     }
     ,fontSizes: {
+      ...defaultTheme.tokens.fontSizes,
       'xs': 12,
       'sm': 14,
       'md': 16,
@@ -30,6 +38,7 @@ export const gluestackUIConfig = createConfig({
       'xl': 20,
     },
     space: {
+      ...defaultTheme.tokens.space,
       '2': 20,
       '4': 30,
       '14':56,
