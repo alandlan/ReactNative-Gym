@@ -8,7 +8,7 @@ import {Home} from "@screens/Home";
 import {Exercise} from "@screens/Exercise";
 import {Profile} from "@screens/Profile";
 import {History} from "@screens/History";
-import { gluestackUIConfig } from "../theme/indexOriginal";
+import { config } from "../../config/gluestack-ui.config";
 import { Platform } from "react-native";
 
 type AppRoutesProps = {
@@ -29,14 +29,14 @@ export function AppRoutes() {
             screenOptions={{
                 headerShown: false,
                 tabBarShowLabel: false,
-                tabBarActiveTintColor: gluestackUIConfig.tokens.colors.green500,
-                tabBarInactiveTintColor: gluestackUIConfig.tokens.colors.trueGray200,
+                tabBarActiveTintColor: config.tokens.colors.green500,
+                tabBarInactiveTintColor: config.tokens.colors.gray200,
                 tabBarStyle: {
-                    backgroundColor: gluestackUIConfig.tokens.colors.trueGray600,
+                    backgroundColor: config.tokens.colors.gray600,
                     borderTopWidth: 0,
                     height: Platform.OS === 'android' ? 'auto' : 96,
-                    paddingBottom: gluestackUIConfig.tokens.space[4],
-                    paddingTop: gluestackUIConfig.tokens.space[4],
+                    paddingBottom: config.tokens.space[8],
+                    paddingTop: config.tokens.space[8],
                 }
             
             }}
