@@ -1,6 +1,8 @@
+import { Button } from "@components/Button";
+import { Input } from "@components/Input";
 import { ScreenHeader } from "@components/ScreenHeader";
 import { UserPhoto } from "@components/UserPhoto";
-import { Center, ScrollView, VStack, Text } from "@gluestack-ui/themed";
+import { Center, ScrollView, VStack, Text, Heading, View } from "@gluestack-ui/themed";
 import { useState } from "react";
 import ContentLoader,{Circle} from "react-content-loader/native";
 import { TouchableOpacity, useWindowDimensions } from "react-native";
@@ -46,7 +48,25 @@ export function Profile() {
           </Text>
         </TouchableOpacity>
 
+        <Input bg="$gray600" placeholder="Nome"  />
+        <Input bg="$gray600" placeholder="E-mail" isDisabled={true} />
+
         </Center>
+
+        <VStack px={24} mt={12} mb={9}>
+          <Heading fontSize="$md" color="$gray200" mb={4}>
+            Alterar senha
+          </Heading>
+
+          <Input bg="$gray600" placeholder="Senha Antiga" isPassword={true} />
+          <Input bg="$gray600" placeholder="Nova senha" isPassword={true}/>
+          <Input bg="$gray600" placeholder="Confirmar nova senha" isPassword={true} />
+        
+         <View mt={16}>
+
+          <Button title="Atualizar" onPress={() => {}} />
+         </View>
+        </VStack>
       </ScrollView>
     </VStack>
   );

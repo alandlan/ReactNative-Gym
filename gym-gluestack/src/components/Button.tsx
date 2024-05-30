@@ -1,5 +1,5 @@
 
-import { Button as ButtonBase,ButtonGroup,ButtonText } from '@gluestack-ui/themed';
+import { Button as ButtonBase,ButtonGroup,ButtonText, IButtonProps } from '@gluestack-ui/themed';
 import {PressableProps} from 'react-native';
 
 type ButtonProps = PressableProps & {
