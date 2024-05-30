@@ -1,9 +1,9 @@
 import { ScreenHeader } from "@components/ScreenHeader";
 import { UserPhoto } from "@components/UserPhoto";
-import { Center, ScrollView, VStack } from "@gluestack-ui/themed";
+import { Center, ScrollView, VStack, Text } from "@gluestack-ui/themed";
 import { useState } from "react";
 import ContentLoader,{Circle} from "react-content-loader/native";
-import { useWindowDimensions } from "react-native";
+import { TouchableOpacity, useWindowDimensions } from "react-native";
 
 
 
@@ -39,6 +39,13 @@ export function Profile() {
             size={96}
           />
          )}
+
+        <TouchableOpacity onPress={() => setPhotoIsLoading(!photoIsLoading)}>
+          <Text color="$green500" fontWeight={"$bold"} fontSize={"$md"} mt={2} mb={8}>
+            Alternar foto
+          </Text>
+        </TouchableOpacity>
+
         </Center>
       </ScrollView>
     </VStack>
