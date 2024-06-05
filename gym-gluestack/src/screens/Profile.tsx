@@ -7,13 +7,17 @@ import { useState } from "react";
 import ContentLoader,{Circle} from "react-content-loader/native";
 import { TouchableOpacity, useWindowDimensions } from "react-native";
 
-
+import * as ImagePicker from 'expo-image-picker';
 
 export function Profile() {
   const { width } = useWindowDimensions();
   const centerScreen = (width / 2) - 24;
 
   const[photoIsLoading, setPhotoIsLoading] = useState(true);
+
+  async function handleUserPhotoSelect(){
+    await ImagePicker.launchImageLibraryAsync();
+  }
 
   return (
     <VStack flex={1}>
@@ -42,7 +46,7 @@ export function Profile() {
           />
          )}
 
-        <TouchableOpacity onPress={() => setPhotoIsLoading(!photoIsLoading)}>
+        <TouchableOpacity onPress={handleUserPhotoSelect}>
           <Text color="$green500" fontWeight={"$bold"} fontSize={"$md"} mt={2} mb={8}>
             Alternar foto
           </Text>
