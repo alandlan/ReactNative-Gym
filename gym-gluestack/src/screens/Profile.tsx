@@ -22,11 +22,20 @@ export function Profile() {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4,4],
-        quality: 1
+        quality: 1,
       });
   
       if(photoSelected.canceled){
         return;
+      }
+
+      //get image size
+      const imageSize = photoSelected.assets[0].fileSize;
+
+      // if size more then 5mb block
+      if(!imageSize || (imageSize / 1024 / 1024) > 3){
+        
+        return alert("Imagem muito grande, selecione uma imagem menor que 3mb");
       }
   
       setPhotoUri(photoSelected.assets[0].uri);
