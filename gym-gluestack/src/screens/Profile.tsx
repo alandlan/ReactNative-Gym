@@ -2,7 +2,7 @@ import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { ScreenHeader } from "@components/ScreenHeader";
 import { UserPhoto } from "@components/UserPhoto";
-import { Center, ScrollView, VStack, Text, Heading, View } from "@gluestack-ui/themed";
+import { Center, ScrollView, VStack, Text, Heading, View,useToast, Toast, ToastTitle, ToastDescription } from "@gluestack-ui/themed";
 import { useState } from "react";
 import ContentLoader,{Circle} from "react-content-loader/native";
 import { TouchableOpacity, useWindowDimensions } from "react-native";
@@ -15,6 +15,8 @@ export function Profile() {
 
   const[photoIsLoading, setPhotoIsLoading] = useState(true);
   const[photoUri, setPhotoUri] = useState("https://avatars.githubusercontent.com/u/20859616?s=400&v=4");
+
+  const toast = useToast();
 
   async function handleUserPhotoSelect(){
     try{
@@ -29,13 +31,27 @@ export function Profile() {
         return;
       }
 
-      //get image size
-      const imageSize = photoSelected.assets[0].fileSize;
+      //get image size convert if null to int
+      const imageSize = photoSelected.assets[0].fileSize || 0;
 
-      // if size more then 5mb block
-      if(!imageSize || (imageSize / 1024 / 1024) > 3){
-        
-        return alert("Imagem muito grande, selecione uma imagem menor que 3mb");
+      // if size more then 3mb block
+      if(imageSize || (imageSize / 1024 / 1024) > 3){
+        return toast.show({
+          placement: "bottom",
+          render: ({ id }) => {
+            const toastId = "toast-" + id
+            return (
+              <Toast nativeID={toastId} action="error" variant="solid">
+                <VStack w={"$full"} h={100}>
+                  <ToastTitle>Erro</ToastTitle>
+                  <ToastDescription>
+                    Imagem muito grande, selecione uma imagem menor que 3mb
+                  </ToastDescription>
+                </VStack>
+              </Toast>
+            )
+          },
+        });
       }
   
       setPhotoUri(photoSelected.assets[0].uri);
