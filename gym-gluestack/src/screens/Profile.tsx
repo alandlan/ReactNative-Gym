@@ -17,20 +17,22 @@ export function Profile() {
   const[photoUri, setPhotoUri] = useState("https://avatars.githubusercontent.com/u/20859616?s=400&v=4");
 
   async function handleUserPhotoSelect(){
-    const photoSelected = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4,4],
-      quality: 1
-    });
-
-    if(photoSelected.canceled){
-      return;
+    try{
+      const photoSelected = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4,4],
+        quality: 1
+      });
+  
+      if(photoSelected.canceled){
+        return;
+      }
+  
+      setPhotoUri(photoSelected.assets[0].uri);
+    }catch(error){
+      console.log(error);
     }
-
-    // setPhotoIsLoading(false);
-
-    setPhotoUri(photoSelected.assets[0].uri);
   }
 
   return (
