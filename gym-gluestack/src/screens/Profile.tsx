@@ -14,14 +14,23 @@ export function Profile() {
   const centerScreen = (width / 2) - 24;
 
   const[photoIsLoading, setPhotoIsLoading] = useState(true);
+  const[photoUri, setPhotoUri] = useState("https://avatars.githubusercontent.com/u/20859616?s=400&v=4");
 
   async function handleUserPhotoSelect(){
-    await ImagePicker.launchImageLibraryAsync({
+    const photoSelected = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4,4],
       quality: 1
     });
+
+    if(photoSelected.canceled){
+      return;
+    }
+
+    // setPhotoIsLoading(false);
+
+    setPhotoUri(photoSelected.assets[0].uri);
   }
 
   return (
@@ -45,7 +54,7 @@ export function Profile() {
          ): (
         
           <UserPhoto
-            source={{uri: "https://avatars.githubusercontent.com/u/20859616?s=400&v=4"}}
+            source={{uri: photoUri}}
             alt="User photo"
             size={96}
           />
