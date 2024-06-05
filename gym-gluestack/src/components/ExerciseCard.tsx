@@ -19,7 +19,7 @@ export function ExerciseCard({...rest}: Props){
                     h={64}
                     rounded={"$md"}
                     mr={8}
-                    // resizeMode="center"
+                    resizeMode="cover"
                 />
                 <VStack flex={1}>
                     <Heading fontSize={"$lg"} color="$white">

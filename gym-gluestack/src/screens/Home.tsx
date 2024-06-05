@@ -36,6 +36,7 @@ export function Home() {
           contentContainerStyle={{paddingHorizontal: 16}}
           my={16}
           maxHeight={32}
+          minHeight={32}
         />
 
         <VStack flex={1} px={16}>
