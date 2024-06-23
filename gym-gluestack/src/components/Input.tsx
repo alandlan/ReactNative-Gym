@@ -15,10 +15,7 @@ export interface InputProps extends TextInputProps{
 
 
 export function Input({placeholder,icon,keyboardType,bg, isDisabled,isPassword,errorMessage, ...rest} : InputProps){
-
-    console.log(placeholder);
     const isValidation = errorMessage ? true : false;
-    console.log(isValidation);
 
     return (
         <FormControl w={'$full'} mb={16} isInvalid={isValidation}>

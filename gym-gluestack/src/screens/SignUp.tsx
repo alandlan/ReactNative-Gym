@@ -17,6 +17,8 @@ import { Dimensions,Image } from "react-native";
 import { Button } from "@components/Button";
 import { useNavigation } from "@react-navigation/native";
 import { Controller, useForm } from "react-hook-form";
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 type FormDataProps = {
   name: string;
@@ -25,11 +27,20 @@ type FormDataProps = {
   password_confirm: string;
 }
 
+const signUpSchema = yup.object().shape({
+  name: yup.string().required('Nome é obrigatório.'),
+  email: yup.string().required('E-mail é obrigatório.').email('E-mail inválido.'),
+  password: yup.string().required('Senha é obrigatória.').min(6, 'Mínimo de 6 caracteres.'),
+  password_confirm: yup.string().required('Confirme a senha.').oneOf([yup.ref('password')], 'As senhas devem ser iguais.'),
+});
+
 export function SignUp() {
   const { width,height } = Dimensions.get('window');
   const imageHeight = Image.resolveAssetSource(BackgroundImage).height;
 
-  const {control,handleSubmit,formState: {errors}} = useForm<FormDataProps>();
+  const {control,handleSubmit,formState: {errors}} = useForm<FormDataProps>({
+    resolver: yupResolver(signUpSchema)
+  });
 
 
   const navigation = useNavigation();
@@ -75,7 +86,6 @@ export function SignUp() {
                 <Controller 
                   control={control}
                   name="name"
-                  rules={{required: "Nome é obrigatório"}}
                   render={({field: {onChange, value}}) => (
                     <Input  onChangeText={onChange} 
                             value={value} placeholder="Nome" 
@@ -87,10 +97,10 @@ export function SignUp() {
                 <Controller 
                   control={control}
                   name="email"
-                  rules={{required: "E-mail é obrigatório", pattern: {value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/, message: "E-mail inválido"}}}
                   render={({field: {onChange, value}}) => (
                     <Input  onChangeText={onChange} 
-                            value={value} placeholder="E-mail" 
+                            value={value} 
+                            placeholder="E-mail" 
                             keyboardType="email-address" 
                             autoCapitalize="none" 
                             icon={MailIcon} 
@@ -102,7 +112,12 @@ export function SignUp() {
                   control={control}
                   name="password"
                   render={({field: {onChange, value}}) => (
-                    <Input onChangeText={onChange} value={value} placeholder="Senha" secureTextEntry icon={EyeOffIcon}/>
+                    <Input  onChangeText={onChange} 
+                            value={value} 
+                            placeholder="Senha" 
+                            secureTextEntry 
+                            icon={EyeOffIcon}
+                            errorMessage={errors.password?.message && errors.password.message}/>
                   )}
                 />
 
@@ -110,7 +125,15 @@ export function SignUp() {
                   control={control}
                   name="password_confirm"
                   render={({field: {onChange, value}}) => (
-                    <Input onChangeText={onChange} value={value} placeholder="Confirme a Senha" secureTextEntry icon={EyeOffIcon} onSubmitEditing={handleSubmit(handleSignUp)} returnKeyType="send"/>
+                    <Input 
+                      onChangeText={onChange} 
+                      value={value} 
+                      placeholder="Confirme a Senha" 
+                      secureTextEntry 
+                      icon={EyeOffIcon} 
+                      onSubmitEditing={handleSubmit(handleSignUp)} 
+                      returnKeyType="send"
+                      errorMessage={errors.password_confirm?.message && errors.password_confirm.message}/>
                   )}
                 />
 
