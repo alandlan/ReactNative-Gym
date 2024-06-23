@@ -1,5 +1,4 @@
-import { Center,Heading,Text } from "@gluestack-ui/themed";
-import { Dimensions } from "react-native";
+import { Center,Heading,SafeAreaView,Text } from "@gluestack-ui/themed";
 
 type Props = {
     title: string;
@@ -7,14 +6,15 @@ type Props = {
 
 export function ScreenHeader({title}: Props) {
 
-  //get 20% of the screen height
-  const h = Dimensions.get("window").height * 0.2;
-
   return (
-    <Center h={h} bg="$gray600" pt={64} pb={21}>
-        <Heading fontFamily="$heading" color="$gray100" fontSize={"$xl"} >
-            {title}
-        </Heading>
-    </Center>
+    <SafeAreaView bg="$gray600">
+      <Center pt={40} pb={20} bg="$gray600" >
+          <Heading fontFamily="$heading" color="$gray100" fontSize={"$xl"} >
+              {title}
+          </Heading> 
+        
+      </Center>
+    </SafeAreaView>
+    
   );
 }
