@@ -51,7 +51,7 @@ export function SignIn() {
                     alignItems:'center',
                     
                 }}>
-                    <Heading>
+                    <Heading fontFamily="$heading">
                         Acesse sua conta
                     </Heading>
 
@@ -75,7 +75,7 @@ export function SignIn() {
                             title="Acessar" onPress={() => {}} 
                         />
 
-                        <Heading style={{
+                        <Heading fontFamily="$heading" style={{
                             marginBottom: 16,
                             marginTop: 56
                         }}>

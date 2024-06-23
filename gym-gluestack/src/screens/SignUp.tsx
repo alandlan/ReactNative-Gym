@@ -77,7 +77,7 @@ export function SignUp() {
               </Center>
 
               <Center mb={24}>
-                <Heading color="$gray100" fontSize={"$xl"} >
+                <Heading fontFamily="$heading" color="$gray100" fontSize={"$xl"} >
                   Crie sua conta
                 </Heading>
               </Center>

@@ -12,7 +12,7 @@ export function ScreenHeader({title}: Props) {
 
   return (
     <Center h={h} bg="$gray600" pt={64} pb={21}>
-        <Heading color="$gray100" fontSize={"$xl"} >
+        <Heading fontFamily="$heading" color="$gray100" fontSize={"$xl"} >
             {title}
         </Heading>
     </Center>

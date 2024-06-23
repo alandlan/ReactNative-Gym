@@ -20,7 +20,7 @@ export function HomeHeader() {
                 Ola
             </Text>
 
-            <Heading color="$gray100" fontSize={"$md"}>
+            <Heading fontFamily="$heading" color="$gray100" fontSize={"$md"} fontFamily="$heading">
                 Alan Martins
             </Heading>
         </VStack>

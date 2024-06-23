@@ -35,14 +35,14 @@ export function History() {
           keyExtractor={(item) => item as string}
           renderItem={({item}) => <HistoryCard />}
           renderSectionHeader={({section}) => (
-            <Heading color="$gray200" fontSize={"$md"} mt={10} mb={3}>
+            <Heading fontFamily="$heading" color="$gray200" fontSize={"$md"} mt={10} mb={3}>
               {section.title}
             </Heading>
           )}
           px={16}
           contentContainerStyle={exercices.length === 0 && {flex: 1, justifyContent: "center"}}
           ListEmptyComponent={
-            <Heading color="$gray200" fontSize={"$md"} mt={10} mb={3} textAlign="center">
+            <Heading fontFamily="$heading" color="$gray200" fontSize={"$md"} mt={10} mb={3} textAlign="center">
               Nenhum exercicio encontrado
             </Heading>
           }

@@ -26,7 +26,7 @@ export function Exercise() {
           <Icon as={ArrowLeftIcon} color="$green500" size="xl" />
         </TouchableOpacity>
         <HStack justifyContent="space-between" mt={4} mb={8} alignItems="center">
-          <Heading color="$gray100" fontSize={"$lg"} flexShrink={1} >
+          <Heading fontFamily="$heading" color="$gray100" fontSize={"$lg"} flexShrink={1} >
             Remada lateral
           </Heading>
 

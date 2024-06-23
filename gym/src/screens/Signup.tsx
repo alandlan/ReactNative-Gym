@@ -52,7 +52,7 @@ export function SignUp() {
                     alignItems:'center',
                     
                 }}>
-                    <Heading>
+                    <Heading fontFamily="$heading">
                         Crie sua conta
                     </Heading>
 

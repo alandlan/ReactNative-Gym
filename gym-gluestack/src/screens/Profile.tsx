@@ -99,7 +99,7 @@ export function Profile() {
         </Center>
 
         <VStack px={24} mt={12} mb={9}>
-          <Heading fontSize="$md" color="$gray200" mb={4}>
+          <Heading fontFamily="$heading" fontSize="$md" color="$gray200" mb={4}>
             Alterar senha
           </Heading>
 

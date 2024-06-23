@@ -21,7 +21,7 @@ export function HomeHeader() {
             
             <VStack>
                 <Text style={{color: theme.colors.gray100, fontSize: theme.fontSizes.md}}>Ola</Text>
-                <Heading >Alan</Heading>
+                <Heading fontFamily="$heading">Alan</Heading>
             </VStack>
             <TouchableOpacity>
 

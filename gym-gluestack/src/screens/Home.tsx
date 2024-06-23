@@ -41,7 +41,7 @@ export function Home() {
 
         <VStack flex={1} px={16}>
           <HStack justifyContent="space-between" marginBottom={10}>
-            <Heading color="$gray200" fontSize="$md">Exercícios</Heading>
+            <Heading fontFamily="$heading" color="$gray200" fontSize="$md">Exercícios</Heading>
 
             <Text color="$gray200" fontSize={"$md"}>
               {exercises.length}
