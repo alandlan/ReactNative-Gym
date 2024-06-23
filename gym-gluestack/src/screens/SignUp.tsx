@@ -16,15 +16,29 @@ import { Input } from "@components/Input";
 import { Dimensions,Image } from "react-native";
 import { Button } from "@components/Button";
 import { useNavigation } from "@react-navigation/native";
+import { Controller, useForm } from "react-hook-form";
+
+type FormDataProps = {
+  name: string;
+  email: string;
+  password: string;
+  password_confirm: string;
+}
 
 export function SignUp() {
   const { width,height } = Dimensions.get('window');
   const imageHeight = Image.resolveAssetSource(BackgroundImage).height;
 
+  const {control,handleSubmit} = useForm<FormDataProps>();
+
   const navigation = useNavigation();
 
   function handlGoBack(){
     navigation.goBack();
+  }
+
+  function handleSignUp(data: FormDataProps){
+    
   }
 
   return (
@@ -58,13 +72,40 @@ export function SignUp() {
               </Center>
 
               <Center>
-              <Input placeholder="Nome" icon={EditIcon}/>
+                <Controller 
+                  control={control}
+                  name="name"
+                  render={({field: {onChange, value}}) => (
+                    <Input onChangeText={onChange} value={value} placeholder="Nome" icon={EditIcon}/>
+                  )}
+                />
 
-                <Input placeholder="E-mail" keyboardType="email-address" autoCapitalize="none" icon={MailIcon}/>
-                
-                <Input placeholder="Senha" secureTextEntry icon={EyeOffIcon}/>
+                <Controller 
+                  control={control}
+                  name="email"
+                  render={({field: {onChange, value}}) => (
+                    <Input onChangeText={onChange} value={value} placeholder="E-mail" keyboardType="email-address" autoCapitalize="none" icon={MailIcon}/>
+                  )}
+                />
 
-                <Button title="Criar e Acessar" variant="primary" />
+                <Controller 
+                  control={control}
+                  name="password"
+                  render={({field: {onChange, value}}) => (
+                    <Input onChangeText={onChange} value={value} placeholder="Senha" secureTextEntry icon={EyeOffIcon}/>
+                  )}
+                />
+
+                <Controller 
+                  control={control}
+                  name="password_confirm"
+                  render={({field: {onChange, value}}) => (
+                    <Input onChangeText={onChange} value={value} placeholder="Confirme a Senha" secureTextEntry icon={EyeOffIcon} onSubmitEditing={handleSubmit(handleSignUp)} returnKeyType="send"/>
+                  )}
+                />
+              
+
+                <Button onPress={handleSubmit(handleSignUp)} title="Criar e Acessar" variant="primary" />
               </Center >
 
               <Center mt={80}>
