@@ -29,7 +29,8 @@ export function SignUp() {
   const { width,height } = Dimensions.get('window');
   const imageHeight = Image.resolveAssetSource(BackgroundImage).height;
 
-  const {control,handleSubmit} = useForm<FormDataProps>();
+  const {control,handleSubmit,formState: {errors}} = useForm<FormDataProps>();
+
 
   const navigation = useNavigation();
 
@@ -38,7 +39,6 @@ export function SignUp() {
   }
 
   function handleSignUp(data: FormDataProps){
-    
   }
 
   return (
@@ -75,16 +75,26 @@ export function SignUp() {
                 <Controller 
                   control={control}
                   name="name"
+                  rules={{required: "Nome é obrigatório"}}
                   render={({field: {onChange, value}}) => (
-                    <Input onChangeText={onChange} value={value} placeholder="Nome" icon={EditIcon}/>
+                    <Input  onChangeText={onChange} 
+                            value={value} placeholder="Nome" 
+                            icon={EditIcon}
+                            errorMessage={errors.name?.message && errors.name.message}/>
                   )}
                 />
 
                 <Controller 
                   control={control}
                   name="email"
+                  rules={{required: "E-mail é obrigatório", pattern: {value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/, message: "E-mail inválido"}}}
                   render={({field: {onChange, value}}) => (
-                    <Input onChangeText={onChange} value={value} placeholder="E-mail" keyboardType="email-address" autoCapitalize="none" icon={MailIcon}/>
+                    <Input  onChangeText={onChange} 
+                            value={value} placeholder="E-mail" 
+                            keyboardType="email-address" 
+                            autoCapitalize="none" 
+                            icon={MailIcon} 
+                            errorMessage={errors.email?.message && errors.email.message} />
                   )}
                 />
 
@@ -103,12 +113,11 @@ export function SignUp() {
                     <Input onChangeText={onChange} value={value} placeholder="Confirme a Senha" secureTextEntry icon={EyeOffIcon} onSubmitEditing={handleSubmit(handleSignUp)} returnKeyType="send"/>
                   )}
                 />
-              
 
                 <Button onPress={handleSubmit(handleSignUp)} title="Criar e Acessar" variant="primary" />
               </Center >
 
-              <Center mt={80}>
+              <Center mt={16}>
                 <Button  title="Voltar para o Login" variant="secondary" onPress={handlGoBack}/>
               </Center>
 
