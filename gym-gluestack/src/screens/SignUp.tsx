@@ -8,7 +8,10 @@ import {
   MailIcon, 
   EyeOffIcon, 
   ScrollView,
-  EditIcon} from "@gluestack-ui/themed";
+  EditIcon,
+  useToast,
+  Toast,
+  ToastDescription} from "@gluestack-ui/themed";
 
 import LogoSvg from "@assets/logo.svg";
 import BackgroundImage from "@assets/background.png";
@@ -20,6 +23,8 @@ import { Controller, useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
+import { api } from "@services/api";
+import { AppError } from "@utils/AppError";
 
 type FormDataProps = {
   name: string;
@@ -38,6 +43,7 @@ const signUpSchema = yup.object().shape({
 export function SignUp() {
   const { width,height } = Dimensions.get('window');
   const imageHeight = Image.resolveAssetSource(BackgroundImage).height;
+  const toast = useToast();
 
   const {control,handleSubmit,formState: {errors}} = useForm<FormDataProps>({
     resolver: yupResolver(signUpSchema)
@@ -51,19 +57,32 @@ export function SignUp() {
   }
 
   async function handleSignUp({name,email,password}: FormDataProps){
-    const response = await fetch('http://192.168.1.102:3333/users',{
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+    try {
+      const response = await api.post('/users',{
         name,
         email,
         password
-      })
-    })
+      });
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+      const description = isAppError ? error.message : "Erro no servidor. Tente novamente mais tarde!";
+      toast.show({
+        placement: "bottom",
+        render: ({ id }) => {
+          const toastId = "toast-" + id
+          return (
+            <Toast nativeID={toastId} action="error" variant="solid">
+              <VStack w={"$full"} >
+                <ToastDescription>
+                  {description}
+                </ToastDescription>
+              </VStack>
+            </Toast>
+          )
+        },
+      });
+    }
 
-    const data = await response.json();
     
   }
 
