@@ -19,6 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 
 type FormDataProps = {
   name: string;
@@ -43,13 +44,29 @@ export function SignUp() {
   });
 
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
   function handlGoBack(){
     navigation.goBack();
   }
 
-  function handleSignUp(data: FormDataProps){
+  function handleSignUp({name,email,password}: FormDataProps){
+    fetch('http://192.168.1.102:3333/users',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        password
+      })
+    }).then(response => {
+      console.log(response);
+      if(response.ok){
+        navigation.navigate("SignIn");
+      }
+    });
   }
 
   return (
