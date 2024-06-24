@@ -1,12 +1,9 @@
 import { HStack, Heading, Text, VStack,Icon, SafeAreaView } from "@gluestack-ui/themed";
 import { UserPhoto } from "./UserPhoto";
-import { Dimensions, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { LogOut } from "lucide-react-native";
 
-
 export function HomeHeader() {
-
-  const h = Dimensions.get("window").height * 0.2;
 
   return (
     <SafeAreaView bg="$gray600">
