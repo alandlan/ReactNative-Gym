@@ -61,12 +61,9 @@ export function SignUp() {
         email,
         password
       })
-    }).then(response => {
-      console.log(response);
-      if(response.ok){
-        navigation.navigate("SignIn");
-      }
-    });
+    })
+    .then(response => response.json())
+    .then(data => console.log(data));
   }
 
   return (
