@@ -3,7 +3,7 @@ import {Roboto_400Regular, Roboto_700Bold, useFonts} from '@expo-google-fonts/ro
 import { Loading } from "./src/components/Loading";
 import { Routes } from "@routes/index";
 import {config} from "./config/gluestack-ui.config"
-import { AuthContext } from "@contexts/AuthContext";
+import { AuthContext, AuthContextProvider } from "@contexts/AuthContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -18,19 +18,9 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      <AuthContext.Provider value={{
-        user: {
-          id: "1",
-          email: "alan@alan",
-          name: "Alan",
-          avatar: "alan"
-        }
-      }}>
-        {fontsLoaded ? 
-          <Routes /> :
-          <Loading />
-        }
-      </AuthContext.Provider>
+      <AuthContextProvider>
+        {fontsLoaded ? <Routes /> : <Loading />}
+      </AuthContextProvider>
     </GluestackUIProvider>
   )
 }
