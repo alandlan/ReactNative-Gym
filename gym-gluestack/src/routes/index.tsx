@@ -2,6 +2,7 @@ import { NavigationContainer,DefaultTheme } from "@react-navigation/native";
 import { Box } from "@gluestack-ui/themed";
 import { AuthRoutes } from "./auth.routes";
 import { useAuth } from "@hooks/useAuth";
+import { AppRoutes } from "./app.routes";
 
 export function Routes(){
     const {user } = useAuth();
@@ -13,7 +14,7 @@ export function Routes(){
     return (
         <Box flex={1} bg="$gray700">
             <NavigationContainer theme={theme}>
-                <AuthRoutes />
+                {user && user.id ? <AppRoutes /> : <AuthRoutes />}
             </NavigationContainer>
         </Box>
         
