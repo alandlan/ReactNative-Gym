@@ -1,16 +1,17 @@
 
-import { Button as ButtonBase,ButtonGroup,ButtonText, IButtonProps } from '@gluestack-ui/themed';
+import { Button as ButtonBase,ButtonGroup,ButtonSpinner,ButtonText, IButtonProps } from '@gluestack-ui/themed';
 import {PressableProps} from 'react-native';
 
 type ButtonProps = PressableProps & {
     title: string;
     variant?: 'primary' | 'secondary';
+    isLoading?: boolean;
 }
 
 
-export function Button({title,variant = 'primary', ...rest}:ButtonProps){
+export function Button({title,variant = 'primary', isLoading = false, ...rest}:ButtonProps){
     return (
-        <ButtonGroup>
+        <ButtonGroup >
             <ButtonBase 
                 w="$full"
                 h={56}
@@ -19,13 +20,20 @@ export function Button({title,variant = 'primary', ...rest}:ButtonProps){
                 borderColor={"$green700"}
                 rounded={"$sm"}
                 $active-bg={variant === "secondary" ? "$gray500" : '$green500'}
+                isDisabled={isLoading}
                 {...rest}
             >
-                <ButtonText
-                    color={variant === "secondary" ? "$green500" : "$white"}
-                >
-                    {title}
-                </ButtonText>
+
+                {isLoading ? (
+                    <ButtonSpinner mr={"$1"} />
+                ):(
+                    <ButtonText
+                        color={variant === "secondary" ? "$green500" : "$white"}
+                    >
+                        {title}
+                    </ButtonText>
+                )}
+                
             </ButtonBase>
         </ButtonGroup>
     )

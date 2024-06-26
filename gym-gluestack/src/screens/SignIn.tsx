@@ -8,7 +8,8 @@ import {
   MailIcon, 
   EyeOffIcon, 
   ScrollView,
-  useToast} from "@gluestack-ui/themed";
+  useToast,
+  set} from "@gluestack-ui/themed";
 
 import LogoSvg from "@assets/logo.svg";
 import BackgroundImage from "@assets/background.png";
@@ -21,6 +22,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useAuth } from "@hooks/useAuth";
 import { AppError } from "@utils/AppError";
 import { ErrorToast } from "@components/ErrorToast";
+import { useState } from "react";
 
 type FormData = {
   email: string;
@@ -34,6 +36,7 @@ export function SignIn() {
   const { control, handleSubmit,formState: {errors} } = useForm<FormData>();
   const {signIn} = useAuth();
   const toast = useToast();
+  const [isLoading,setIsLoading] = useState(false);
 
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
@@ -43,11 +46,14 @@ export function SignIn() {
 
   async function handleSignIn({email,password}: FormData){
     try {
+      setIsLoading(true);
       await signIn(email,password);
     }catch(error){
       const isError = error instanceof AppError;
 
       const message = isError ? error.message : 'Erro ao realizar login';
+
+      setIsLoading(false);
 
       toast.show({
         placement: "bottom",
@@ -123,7 +129,7 @@ export function SignIn() {
                   name="password"
                   rules={{required: 'Senha é obrigatória'}}
                 />
-                <Button title="Acessar" variant="primary" onPress={handleSubmit(handleSignIn)} />
+                <Button isLoading={isLoading} title="Acessar" variant="primary" onPress={handleSubmit(handleSignIn)} />
               </Center>
               
               <Center mt={80}>
