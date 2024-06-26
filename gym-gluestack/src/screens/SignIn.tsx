@@ -7,7 +7,8 @@ import {
   View, 
   MailIcon, 
   EyeOffIcon, 
-  ScrollView} from "@gluestack-ui/themed";
+  ScrollView,
+  useToast} from "@gluestack-ui/themed";
 
 import LogoSvg from "@assets/logo.svg";
 import BackgroundImage from "@assets/background.png";
@@ -18,6 +19,8 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 import { Controller, useForm } from "react-hook-form";
 import { useAuth } from "@hooks/useAuth";
+import { AppError } from "@utils/AppError";
+import { ErrorToast } from "@components/ErrorToast";
 
 type FormData = {
   email: string;
@@ -30,6 +33,7 @@ export function SignIn() {
 
   const { control, handleSubmit,formState: {errors} } = useForm<FormData>();
   const {signIn} = useAuth();
+  const toast = useToast();
 
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
@@ -38,7 +42,23 @@ export function SignIn() {
   }
 
   async function handleSignIn({email,password}: FormData){
-    await signIn(email,password);
+    try {
+      await signIn(email,password);
+    }catch(error){
+      const isError = error instanceof AppError;
+
+      const message = isError ? error.message : 'Erro ao realizar login';
+
+      toast.show({
+        placement: "bottom",
+        render: ({ id }) => {
+          const toastId = "toast-" + id
+          return (
+            <ErrorToast id={toastId} message={message} />
+          )
+        },
+      });
+    }
   }
 
   return (
