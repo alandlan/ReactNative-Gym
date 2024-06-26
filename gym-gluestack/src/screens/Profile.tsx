@@ -2,12 +2,13 @@ import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { ScreenHeader } from "@components/ScreenHeader";
 import { UserPhoto } from "@components/UserPhoto";
-import { Center, ScrollView, VStack, Text, Heading, View,useToast, Toast, ToastTitle, ToastDescription } from "@gluestack-ui/themed";
+import { Center, ScrollView, VStack, Text, Heading, View,useToast } from "@gluestack-ui/themed";
 import { useState } from "react";
 import ContentLoader,{Circle} from "react-content-loader/native";
 import { TouchableOpacity, useWindowDimensions } from "react-native";
 
 import * as ImagePicker from 'expo-image-picker';
+import { ErrorToast } from "@components/ErrorToast";
 
 export function Profile() {
   const { width } = useWindowDimensions();
@@ -41,14 +42,9 @@ export function Profile() {
           render: ({ id }) => {
             const toastId = "toast-" + id
             return (
-              <Toast nativeID={toastId} action="error" variant="solid">
-                <VStack w={"$full"} h={100}>
-                  <ToastTitle>Erro</ToastTitle>
-                  <ToastDescription>
-                    Imagem muito grande, selecione uma imagem menor que 3mb
-                  </ToastDescription>
-                </VStack>
-              </Toast>
+              <ErrorToast 
+                id={toastId} 
+                message="Imagem muito grande, selecione uma imagem menor que 3mb" />
             )
           },
         });

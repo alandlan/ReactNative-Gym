@@ -9,9 +9,7 @@ import {
   EyeOffIcon, 
   ScrollView,
   EditIcon,
-  useToast,
-  Toast,
-  ToastDescription} from "@gluestack-ui/themed";
+  useToast} from "@gluestack-ui/themed";
 
 import LogoSvg from "@assets/logo.svg";
 import BackgroundImage from "@assets/background.png";
@@ -25,6 +23,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 import { api } from "@services/api";
 import { AppError } from "@utils/AppError";
+import { ErrorToast } from "@components/ErrorToast";
 
 type FormDataProps = {
   name: string;
@@ -71,13 +70,10 @@ export function SignUp() {
         render: ({ id }) => {
           const toastId = "toast-" + id
           return (
-            <Toast nativeID={toastId} action="error" variant="solid">
-              <VStack w={"$full"} >
-                <ToastDescription>
-                  {description}
-                </ToastDescription>
-              </VStack>
-            </Toast>
+            <ErrorToast 
+              id={toastId} 
+              message={description} 
+            />
           )
         },
       });
