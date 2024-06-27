@@ -6,6 +6,7 @@ import { createContext, useEffect, useState } from "react";
 export type AuthContextDataProps = {
     user: UserDTO;
     signIn: (email: string,password: string) => Promise<void>;
+    isLoading: boolean;
 }
 
 export const AuthContext =  createContext<AuthContextDataProps>({} as AuthContextDataProps);
@@ -16,6 +17,7 @@ type AuthContextProviderProps = {
 
 export function AuthContextProvider({children}: AuthContextProviderProps){
     const [user, setUser] = useState<UserDTO>({} as UserDTO)
+    const [isLoading, setIsLoading] = useState(true);
 
     async function signIn(email: string, password: string){
         try {
@@ -40,6 +42,8 @@ export function AuthContextProvider({children}: AuthContextProviderProps){
 
         } catch (error) {
             throw error;
+        }finally{
+            setIsLoading(false);
         }
     }
 
@@ -48,7 +52,11 @@ export function AuthContextProvider({children}: AuthContextProviderProps){
     },[]);
 
     return (
-        <AuthContext.Provider value={{user,signIn}}>
+        <AuthContext.Provider value={{
+                user,
+                signIn,
+                isLoading
+            }}>
             {children}
         </AuthContext.Provider>
     );
