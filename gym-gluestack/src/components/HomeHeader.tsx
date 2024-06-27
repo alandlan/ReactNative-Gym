@@ -7,31 +7,40 @@ import { useAuth } from "@hooks/useAuth";
 import userPhotoDefault from "@assets/userPhotoDefault.png";
 
 export function HomeHeader() {
-    const { user } = useAuth();
+    const { user, signOut } = useAuth();
 
-  return (
-    <SafeAreaView bg="$gray600">
-        <HStack bg="$gray600" pt={40} pb={20} px={32} alignItems="center">
-            <UserPhoto 
-                size={48} 
-                source={user.avatar ? {uri: user.avatar} : userPhotoDefault} 
-                alt="userPhoto"
-                style={{marginRight: 8}}/>
-            <VStack flex={1}>
-                <Text color="$gray100" fontSize={"$md"}>
-                    Ola
-                </Text>
+    async function handleSignOut(){
+        try {
+            await signOut();
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
 
-                <Heading fontFamily="$heading" color="$gray100" fontSize={"$md"}>
-                    {user.name}
-                </Heading>
-            </VStack>
-            
-            <TouchableOpacity>
-                <Icon as={LogOut} size={"xl"}  color={"$gray100"}/>
-            </TouchableOpacity>
-            
-        </HStack>
-    </SafeAreaView>
-  );
+    return (
+        <SafeAreaView bg="$gray600">
+            <HStack bg="$gray600" pt={40} pb={20} px={32} alignItems="center">
+                <UserPhoto 
+                    size={48} 
+                    source={user.avatar ? {uri: user.avatar} : userPhotoDefault} 
+                    alt="userPhoto"
+                    style={{marginRight: 8}}/>
+                <VStack flex={1}>
+                    <Text color="$gray100" fontSize={"$md"}>
+                        Ola
+                    </Text>
+
+                    <Heading fontFamily="$heading" color="$gray100" fontSize={"$md"}>
+                        {user.name}
+                    </Heading>
+                </VStack>
+                
+                <TouchableOpacity onPress={handleSignOut}>
+                    <Icon as={LogOut} size={"xl"}  color={"$gray100"}/>
+                </TouchableOpacity>
+                
+            </HStack>
+        </SafeAreaView>
+    );
 }

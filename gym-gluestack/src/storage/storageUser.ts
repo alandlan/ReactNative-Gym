@@ -23,3 +23,12 @@ export async function getUser() {
         throw error;
     }
 }
+
+export async function removeUser() {
+    try {
+        await AsyncStorage.removeItem(USER_STORAGE);
+    }
+    catch (error) {
+        throw error;
+    }
+}
