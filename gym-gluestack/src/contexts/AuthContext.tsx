@@ -1,5 +1,6 @@
 import { UserDTO } from "@dtos/UserDTO";
 import { api } from "@services/api";
+import { saveUser } from "@storage/storageUser";
 import { createContext, useState } from "react";
 
 export type AuthContextDataProps = {
@@ -22,6 +23,7 @@ export function AuthContextProvider({children}: AuthContextProviderProps){
 
             if(data.user){
                 setUser(data.user);
+                saveUser(data.user);
             }
         } catch (error) {
             throw error;
