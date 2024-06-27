@@ -2,8 +2,10 @@ import { HStack, Heading, Text, VStack,Icon, SafeAreaView } from "@gluestack-ui/
 import { UserPhoto } from "./UserPhoto";
 import { TouchableOpacity } from "react-native";
 import { LogOut } from "lucide-react-native";
+import { useAuth } from "@hooks/useAuth";
 
 export function HomeHeader() {
+    const { user } = useAuth();
 
   return (
     <SafeAreaView bg="$gray600">
@@ -18,8 +20,8 @@ export function HomeHeader() {
                     Ola
                 </Text>
 
-                <Heading fontFamily="$heading" color="$gray100" fontSize={"$md"} fontFamily="$heading">
-                    Alan Martins
+                <Heading fontFamily="$heading" color="$gray100" fontSize={"$md"}>
+                    {user.name}
                 </Heading>
             </VStack>
             
