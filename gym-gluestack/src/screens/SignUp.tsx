@@ -9,7 +9,8 @@ import {
   EyeOffIcon, 
   ScrollView,
   EditIcon,
-  useToast} from "@gluestack-ui/themed";
+  useToast,
+  set} from "@gluestack-ui/themed";
 
 import LogoSvg from "@assets/logo.svg";
 import BackgroundImage from "@assets/background.png";
@@ -24,6 +25,8 @@ import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 import { api } from "@services/api";
 import { AppError } from "@utils/AppError";
 import { ErrorToast } from "@components/ErrorToast";
+import { useState } from "react";
+import { useAuth } from "@hooks/useAuth";
 
 type FormDataProps = {
   name: string;
@@ -40,14 +43,16 @@ const signUpSchema = yup.object().shape({
 });
 
 export function SignUp() {
+  const [isLoading, setIsLoading] = useState(false);
   const { width,height } = Dimensions.get('window');
   const imageHeight = Image.resolveAssetSource(BackgroundImage).height;
   const toast = useToast();
+  const {signIn} = useAuth();
+  
 
   const {control,handleSubmit,formState: {errors}} = useForm<FormDataProps>({
     resolver: yupResolver(signUpSchema)
   });
-
 
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
@@ -57,11 +62,13 @@ export function SignUp() {
 
   async function handleSignUp({name,email,password}: FormDataProps){
     try {
-      const response = await api.post('/users',{
+      setIsLoading(true);
+      await api.post('/users',{
         name,
         email,
         password
       });
+      await signIn(email,password);
     } catch (error) {
       const isAppError = error instanceof AppError;
       const description = isAppError ? error.message : "Erro no servidor. Tente novamente mais tarde!";
@@ -77,6 +84,8 @@ export function SignUp() {
           )
         },
       });
+    }finally{
+      setIsLoading(false);
     }
 
     
@@ -167,7 +176,7 @@ export function SignUp() {
                   )}
                 />
 
-                <Button onPress={handleSubmit(handleSignUp)} title="Criar e Acessar" variant="primary" />
+                <Button onPress={handleSubmit(handleSignUp)} title="Criar e Acessar" variant="primary" isLoading={isLoading} />
               </Center >
 
               <Center mt={16}>
