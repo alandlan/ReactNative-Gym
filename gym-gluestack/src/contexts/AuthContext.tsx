@@ -1,6 +1,6 @@
 import { UserDTO } from "@dtos/UserDTO";
 import { api } from "@services/api";
-import { getToken, saveToken } from "@storage/storageAuthToken";
+import { getToken, removeToken, saveToken } from "@storage/storageAuthToken";
 import { getUser, removeUser, saveUser } from "@storage/storageUser";
 import { createContext, useEffect, useState } from "react";
 
@@ -62,7 +62,7 @@ export function AuthContextProvider({children}: AuthContextProviderProps){
     async function loadUser(){
         try {
             setIsLoading(true);
-            
+
             const userLogged = await getUser();
             const token = await getToken();
 
@@ -82,6 +82,7 @@ export function AuthContextProvider({children}: AuthContextProviderProps){
             setIsLoading(true);
             setUser({} as UserDTO);
             await removeUser();
+            await removeToken();
         } catch (error) {
             throw error;
         }finally{

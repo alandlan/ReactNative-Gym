@@ -20,3 +20,12 @@ export async function getToken() {
         throw error;
     }
 }
+
+export async function removeToken() {
+    try {
+        await AsyncStorage.removeItem(AUTH_TOKEN);
+    }
+    catch (error) {
+        throw error;
+    }
+}
