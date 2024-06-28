@@ -10,3 +10,13 @@ export async function saveToken(token: string) {
         throw error;
     }
 }
+
+export async function getToken() {
+    try {
+        const token = await AsyncStorage.getItem(AUTH_TOKEN);
+        return token;
+    }
+    catch (error) {
+        throw error;
+    }
+}

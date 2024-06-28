@@ -1,6 +1,6 @@
 import { UserDTO } from "@dtos/UserDTO";
 import { api } from "@services/api";
-import { saveToken } from "@storage/storageAuthToken";
+import { getToken, saveToken } from "@storage/storageAuthToken";
 import { getUser, removeUser, saveUser } from "@storage/storageUser";
 import { createContext, useEffect, useState } from "react";
 
@@ -21,20 +21,22 @@ export function AuthContextProvider({children}: AuthContextProviderProps){
     const [user, setUser] = useState<UserDTO>({} as UserDTO)
     const [isLoading, setIsLoading] = useState(true);
 
-    async function saveUserAndToken(userData: UserDTO, token: string){
+    async function updateUserAndToken(userData: UserDTO, token: string){
         try{
-            setIsLoading(true);
-
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-            await saveUser(userData);
-            await saveToken(token);
             setUser(userData);
         }catch(error){
             throw error;
         }
-        finally{
-            setIsLoading(false);
+    }
+
+    async function saveUserAndToken(userData: UserDTO, token: string){
+        try{
+            await saveUser(userData);
+            await saveToken(token);
+        }catch(error){
+            throw error;
         }
     }
 
@@ -43,19 +45,29 @@ export function AuthContextProvider({children}: AuthContextProviderProps){
             const { data } = await api.post('/sessions',{email,password});
 
             if(data.user && data.token){
-                saveUserAndToken(data.user,data.token);
+                setIsLoading(true);
+
+                await saveUserAndToken(data.user,data.token);
+
+                updateUserAndToken(data.user,data.token);
             }
         } catch (error) {
             throw error;
+        }
+        finally{
+            setIsLoading(false);
         }
     }
 
     async function loadUser(){
         try {
-            const user = await getUser();
+            setIsLoading(true);
+            
+            const userLogged = await getUser();
+            const token = await getToken();
 
-            if(user){
-                setUser(user);
+            if(token && userLogged){
+                updateUserAndToken(userLogged,token);
             }
 
         } catch (error) {
