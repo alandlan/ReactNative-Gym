@@ -20,7 +20,7 @@ export function HomeHeader() {
 
     return (
         <SafeAreaView bg="$gray600">
-            <HStack bg="$gray600" pt={40} pb={20} px={32} alignItems="center">
+            <HStack bg="$gray600" pt={50} pb={10} px={32} alignItems="center">
                 <UserPhoto 
                     size={48} 
                     source={user.avatar ? {uri: user.avatar} : userPhotoDefault} 

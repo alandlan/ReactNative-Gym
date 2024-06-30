@@ -1,78 +1,111 @@
-import { ArrowLeftIcon, Box, Center,HStack,Heading,Icon,Image,ScrollView,Text, VStack, View } from "@gluestack-ui/themed";
+import { ArrowLeftIcon, Box, HStack,Heading,Icon,Image,ScrollView,Text, VStack, useToast } from "@gluestack-ui/themed";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
-import { Dimensions, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 import BodySvg from "@assets/body.svg";
 import SeriesSvg from "@assets/series.svg";
 import RepetitionsSvg from "@assets/repetitions.svg";
 import { Button } from "@components/Button";
+import { ErrorToast } from "@components/ErrorToast";
+import { api } from "@services/api";
+import { useEffect, useState } from "react";
+import { ExerciseDTO } from "@dtos/ExerciseDTO";
+import { Loading } from "@components/Loading";
 
 type RouteParams = {
   exerciseId: string;
 }
 
 export function Exercise() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [exercise, setExercise] = useState<ExerciseDTO>({} as ExerciseDTO);
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
   const {exerciseId} = useRoute().params as RouteParams;
+  const toast = useToast();
 
   function handleGoBack() {
     navigation.goBack();
   }
 
-  //get 20% of the screen height
-  const h = Dimensions.get("window").height * 0.2;
+  async function fetchExerciseDetails() {
+    try {
+      setIsLoading(true);
+      const response = await api.get(`/exercises/${exerciseId}`);
+      setExercise(response.data);
+    } catch (error) {
+      toast.show({
+        placement: "bottom",
+        render: ({ id }) => {
+          const toastId = "toast-" + id;
+          return (
+            <ErrorToast id={toastId} message="Erro ao buscar detalhes do exercício" />
+          );
+        },
+      });
+    }finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchExerciseDetails();
+  }, [exerciseId]);
 
   return (
     <VStack flex={1}>
       
-      <VStack bg="$gray600" h={h} px={32} pt={64} pb={21}>
+      <VStack bg="$gray600"  pt={50} pb={10}  px={32}>
         <TouchableOpacity onPress={handleGoBack}>
           <Icon as={ArrowLeftIcon} color="$green500" size="xl" />
         </TouchableOpacity>
-        <HStack justifyContent="space-between" mt={4} mb={8} alignItems="center">
+        <HStack justifyContent="space-between" alignItems="center">
           <Heading fontFamily="$heading" color="$gray100" fontSize={"$lg"} flexShrink={1} >
-            Remada lateral
+            {exercise.name}
           </Heading>
 
           <HStack alignItems="center">
             <BodySvg/>
-            <Text color="$gray200" ml={1} textTransform="capitalize">Costa</Text>
+            <Text color="$gray200" ml={1} textTransform="capitalize">{exercise.group}</Text>
           </HStack>
         </HStack>
       </VStack>
 
-      <ScrollView>
-        <VStack p={32}>
-          <Image 
-            w={"$full"}
-            h={300}
-            resizeMode="cover"
-            mb={16}
-            rounded={"$md"}
-            alt="ext" 
-            source={{uri: "https://www.realsimple.com/thmb/dsrD3SKItujteW9JynEcaHDtA0g=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/exercises-for-aches-and-pains-2000-3ba8f13cfd8d42c6ac9c0ec0d7fe3cea.jpg"}} />
-        
-          <Box bg="$gray600" rounded={"$md"} pb={8} px={16}>
-            <HStack alignItems="center" justifyContent="space-between" mb={16} mt={32}>
-              <HStack alignItems="center" mb={8}>
-                <SeriesSvg/>
-                <Text color="$gray200" ml={10} textTransform="capitalize">3 séries</Text>
+      {
+        isLoading ? <Loading /> : 
+        <ScrollView>
+          <VStack p={32}>
+            <Box rounded={"$md"} mb={16} overflow="hidden">
+              <Image 
+                w={"$full"}
+                h={300}
+                resizeMode="cover"
+                alt="ext" 
+                source={{uri: `${api.defaults.baseURL}/exercise/demo/${exercise.demo}`}} />
+            </Box>
+            <Box bg="$gray600" rounded={"$md"} pb={8} px={16}>
+              <HStack alignItems="center" justifyContent="space-between" mb={16} mt={32}>
+                <HStack alignItems="center" mb={8}>
+                  <SeriesSvg/>
+                  <Text color="$gray200" ml={10} textTransform="capitalize">{exercise.series} séries</Text>
+                </HStack>
+
+                <HStack alignItems="center" mb={8}>
+                  <RepetitionsSvg/>
+                  <Text color="$gray200" ml={10} textTransform="capitalize">{exercise.repetitions} repeticoes</Text>
+                </HStack>
+
               </HStack>
+                <Button title="Marcar como Realizado" />
+            </Box>
+          
+          </VStack>
 
-              <HStack alignItems="center" mb={8}>
-                <RepetitionsSvg/>
-                <Text color="$gray200" ml={10} textTransform="capitalize">12 repeticoes</Text>
-              </HStack>
+        </ScrollView>
+      }
 
-            </HStack>
-              <Button title="Marcar como Realizado" />
-          </Box>
-        
-        </VStack>
-
-      </ScrollView>
+      
     </VStack>
   );
 }
