@@ -24,7 +24,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 import { api } from "@services/api";
 import { AppError } from "@utils/AppError";
-import { ErrorToast } from "@components/ErrorToast";
+import { ToastCustom } from "@components/ToastCustom";
 import { useState } from "react";
 import { useAuth } from "@hooks/useAuth";
 
@@ -77,9 +77,10 @@ export function SignUp() {
         render: ({ id }) => {
           const toastId = "toast-" + id
           return (
-            <ErrorToast 
+            <ToastCustom 
               id={toastId} 
               message={description} 
+              type="error"
             />
           )
         },

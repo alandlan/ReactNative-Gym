@@ -1,10 +1,10 @@
-import { ErrorToast } from "@components/ErrorToast";
+import { ToastCustom } from "@components/ToastCustom";
 import { ExerciseCard } from "@components/ExerciseCard";
 import { Group } from "@components/Group";
 import { HomeHeader } from "@components/HomeHeader";
 import { Loading } from "@components/Loading";
 import { ExerciseDTO } from "@dtos/ExerciseDTO";
-import { FlatList, HStack, Heading, Text, VStack, set, useToast } from "@gluestack-ui/themed";
+import { FlatList, HStack, Heading, Text, VStack, useToast } from "@gluestack-ui/themed";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { api } from "@services/api";
@@ -38,7 +38,7 @@ export function Home() {
         render: ({ id }) => {
           const toastId = "toast-" + id;
           return (
-            <ErrorToast id={toastId} message={title} />
+            <ToastCustom id={toastId} message={title} type="error"/>
           );
         },
       });
@@ -60,7 +60,7 @@ export function Home() {
         render: ({ id }) => {
           const toastId = "toast-" + id;
           return (
-            <ErrorToast id={toastId} message={title} />
+            <ToastCustom id={toastId} message={title} type="error" />
           );
         },
       });

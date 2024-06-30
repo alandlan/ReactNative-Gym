@@ -21,7 +21,7 @@ import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 import { Controller, useForm } from "react-hook-form";
 import { useAuth } from "@hooks/useAuth";
 import { AppError } from "@utils/AppError";
-import { ErrorToast } from "@components/ErrorToast";
+import { ToastCustom } from "@components/ToastCustom";
 import { useState } from "react";
 
 type FormData = {
@@ -60,7 +60,7 @@ export function SignIn() {
         render: ({ id }) => {
           const toastId = "toast-" + id
           return (
-            <ErrorToast id={toastId} message={message} />
+            <ToastCustom id={toastId} message={message} type="error" />
           )
         },
       });

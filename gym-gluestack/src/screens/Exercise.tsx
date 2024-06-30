@@ -7,7 +7,7 @@ import BodySvg from "@assets/body.svg";
 import SeriesSvg from "@assets/series.svg";
 import RepetitionsSvg from "@assets/repetitions.svg";
 import { Button } from "@components/Button";
-import { ErrorToast } from "@components/ErrorToast";
+import { ToastCustom } from "@components/ToastCustom";
 import { api } from "@services/api";
 import { useEffect, useState } from "react";
 import { ExerciseDTO } from "@dtos/ExerciseDTO";
@@ -41,7 +41,7 @@ export function Exercise() {
         render: ({ id }) => {
           const toastId = "toast-" + id;
           return (
-            <ErrorToast id={toastId} message="Erro ao buscar detalhes do exercício" />
+            <ToastCustom id={toastId} message="Erro ao buscar detalhes do exercício" type="error" />
           );
         },
       });
@@ -61,7 +61,7 @@ export function Exercise() {
         render: ({ id }) => {
           const toastId = "toast-" + id;
           return (
-            <ErrorToast id={toastId} message="Exercício registrado com sucesso" />
+            <ToastCustom id={toastId} message="Exercício registrado com sucesso" type="success" />
           );
         },
       });
@@ -75,7 +75,7 @@ export function Exercise() {
         render: ({ id }) => {
           const toastId = "toast-" + id;
           return (
-            <ErrorToast id={toastId} message="Erro ao registrar exercício" />
+            <ToastCustom id={toastId} message="Erro ao registrar exercício" type="error" />
           );
         },
       });

@@ -8,7 +8,7 @@ import ContentLoader,{Circle} from "react-content-loader/native";
 import { TouchableOpacity, useWindowDimensions } from "react-native";
 
 import * as ImagePicker from 'expo-image-picker';
-import { ErrorToast } from "@components/ErrorToast";
+import { ToastCustom } from "@components/ToastCustom";
 
 export function Profile() {
   const { width } = useWindowDimensions();
@@ -42,8 +42,9 @@ export function Profile() {
           render: ({ id }) => {
             const toastId = "toast-" + id
             return (
-              <ErrorToast 
+              <ToastCustom 
                 id={toastId} 
+                type="error"
                 message="Imagem muito grande, selecione uma imagem menor que 3mb" />
             )
           },
