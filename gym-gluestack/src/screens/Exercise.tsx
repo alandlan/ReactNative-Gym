@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, Box, HStack,Heading,Icon,Image,ScrollView,Text, VStack, useToast } from "@gluestack-ui/themed";
+import { ArrowLeftIcon, Box, HStack,Heading,Icon,Image,ScrollView,Text, VStack, set, useToast } from "@gluestack-ui/themed";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { TouchableOpacity } from "react-native";
@@ -19,6 +19,7 @@ type RouteParams = {
 
 export function Exercise() {
   const [isLoading, setIsLoading] = useState(true);
+  const [sendRegister, setSendRegister] = useState(false);
   const [exercise, setExercise] = useState<ExerciseDTO>({} as ExerciseDTO);
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
@@ -46,6 +47,40 @@ export function Exercise() {
       });
     }finally {
       setIsLoading(false);
+    }
+  }
+
+  async function handleExerciseHistoryRegister() {
+    try{
+      setSendRegister(true);
+
+      await api.post('/history/',{exercise_id: exerciseId});
+
+      toast.show({
+        placement: "bottom",
+        render: ({ id }) => {
+          const toastId = "toast-" + id;
+          return (
+            <ErrorToast id={toastId} message="Exercício registrado com sucesso" />
+          );
+        },
+      });
+
+      navigation.navigate('History');
+
+    }catch(error) {
+      console.log(error);
+      toast.show({
+        placement: "bottom",
+        render: ({ id }) => {
+          const toastId = "toast-" + id;
+          return (
+            <ErrorToast id={toastId} message="Erro ao registrar exercício" />
+          );
+        },
+      });
+    }finally {
+      setSendRegister(false); 
     }
   }
 
@@ -97,7 +132,11 @@ export function Exercise() {
                 </HStack>
 
               </HStack>
-                <Button title="Marcar como Realizado" />
+              <Button 
+                isLoading={sendRegister} 
+                title="Marcar como Realizado" 
+                onPress={handleExerciseHistoryRegister}
+                />
             </Box>
           
           </VStack>
