@@ -21,8 +21,8 @@ export function Home() {
   const toast = useToast();
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
-  function handleOpenExercise() {
-    navigation.navigate("Exercise");
+  function handleOpenExercise(exerciseId: string) {
+    navigation.navigate("Exercise",{exerciseId});
   }
 
   async function fetchGroups() {
@@ -113,7 +113,7 @@ export function Home() {
             <FlatList 
               data={exercises}
               renderItem={({item}) => (
-                <ExerciseCard data={item as ExerciseDTO} onPress={handleOpenExercise} />
+                <ExerciseCard data={item as ExerciseDTO} onPress={() => handleOpenExercise(item.id)} />
               )}
               keyExtractor={(item) => item.id}
               showsVerticalScrollIndicator={false}
