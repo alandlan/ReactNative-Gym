@@ -3,6 +3,7 @@ import { Loading } from "@components/Loading";
 import { ScreenHeader } from "@components/ScreenHeader";
 import { ToastCustom } from "@components/ToastCustom";
 import { HistoryByDayDTO } from "@dtos/HistoryByDayDTO";
+import { HistoryDTO } from "@dtos/HistoryDTO";
 import { Heading, SectionList, VStack, useToast } from "@gluestack-ui/themed";
 import { useFocusEffect } from "@react-navigation/native";
 import { api } from "@services/api";
@@ -53,7 +54,7 @@ export function History() {
           <SectionList 
             sections={exercices}
             keyExtractor={(item) => item as string}
-            renderItem={({item}) => <HistoryCard />}
+            renderItem={({item}) => <HistoryCard data={item as HistoryDTO} />}
             renderSectionHeader={({section}) => (
               <Heading fontFamily="$heading" color="$gray200" fontSize={"$md"} mt={10} mb={3}>
                 {section.title}
