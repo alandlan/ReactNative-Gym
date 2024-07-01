@@ -42,7 +42,6 @@ export function Home() {
           );
         },
       });
-
     } 
   }
 
@@ -119,11 +118,8 @@ export function Home() {
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{paddingBottom: 10}}
             />
-
           </VStack>
-        }
-
-          
+        }          
     </VStack>
 
     
