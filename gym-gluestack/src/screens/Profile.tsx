@@ -18,17 +18,23 @@ import { yupResolver } from "@hookform/resolvers/yup";
 type ProfileFormData = {
   name: string;
   email: string;
-  password?: string | null;
-  newPassword?: string | null;
-  confirmNewPassword?: string | null;
+  password: string;
+  newPassword: string;
+  confirmNewPassword: string;
 }
 
 const profileSchema = yup.object().shape({
   name: yup.string().required("Nome é obrigatório"),
   email: yup.string().email("E-mail inválido").required("E-mail é obrigatório"),
-  password: yup.string().min(6, "Mínimo de 6 caracteres").nullable().transform(value => !!value ? value : undefined),
-  newPassword: yup.string().min(6, "Mínimo de 6 caracteres").nullable().transform(value => !!value ? value : undefined),
-  confirmNewPassword: yup.string().oneOf([yup.ref('newPassword')], 'As senhas devem ser iguais.').nullable().transform(value => !!value ? value : undefined),
+  password: yup.string().nullable().min(6, "Senha deve ter no mínimo 6 caracteres").transform((value) => !!value ? value : null),
+  newPassword: yup.string().nullable().min(6, "Senha deve ter no mínimo 6 caracteres").transform((value) => !!value ? value : null),
+  confirmNewPassword: yup.string().nullable().transform((value) => !!value ? value : null)
+  .oneOf([yup.ref("newPassword"), null], "Senhas não conferem")
+  .when("newPassword", {
+    is: (Field: string) => Field, 
+    then: (schema) =>
+			schema.nullable().required('Informe a confirmação da senha.'),
+  })
 });
 
 export function Profile() {
@@ -56,7 +62,7 @@ export function Profile() {
         aspect: [4,4],
         quality: 1,
       });
-  
+
       if(photoSelected.canceled){
         return;
       }
@@ -71,15 +77,15 @@ export function Profile() {
           render: ({ id }) => {
             const toastId = "toast-" + id
             return (
-              <ToastCustom 
-                id={toastId} 
+              <ToastCustom
+                id={toastId}
                 type="error"
                 message="Imagem muito grande, selecione uma imagem menor que 3mb" />
             )
           },
         });
       }
-  
+
       setPhotoUri(photoSelected.assets[0].uri);
     }catch(error){
       console.log(error);
@@ -92,25 +98,25 @@ export function Profile() {
 
 
   return (
-    <VStack flex={1}> 
+    <VStack flex={1}>
 
       <ScreenHeader title="Perfil" />
 
       <ScrollView>
-      
+
         <Center mt={16} px={24}>
-         
+
          {!photoIsLoading ? (
 
-            <ContentLoader 
-              backgroundColor="#323238" 
+            <ContentLoader
+              backgroundColor="#323238"
               foregroundColor="#7C7C8A"
             >
               <Circle cx={centerScreen} cy="96" r="48" />
             </ContentLoader>
 
          ): (
-        
+
           <UserPhoto
             source={{uri: photoUri}}
             alt="User photo"
@@ -124,7 +130,7 @@ export function Profile() {
           </Text>
         </TouchableOpacity>
 
-        <Controller 
+        <Controller
           control={control}
           render={({field: {onChange, value}}) => (
             <Input
@@ -138,7 +144,7 @@ export function Profile() {
           name="name"
         />
 
-        <Controller 
+        <Controller
           control={control}
           render={({field: {onChange, value}}) => (
             <Input
@@ -160,48 +166,51 @@ export function Profile() {
             Alterar senha
           </Heading>
 
-          <Controller 
+          <Controller
             control={control}
             render={({field: {onChange, value}}) => (
-              <Input 
-                bg="$gray600" 
-                placeholder="Senha Antiga" 
-                isPassword={true} 
-                onChange={onChange}
+              <Input
+                bg="$gray600"
+                placeholder="Senha Antiga"
+                isPassword={true}
+                onChangeText={onChange}
+                value={value}
                 errorMessage={errors.password?.message}
               />
             )}
             name="password"
           />
-          
-          <Controller 
+
+          <Controller
             control={control}
             render={({field: {onChange, value}}) => (
-              <Input 
-                bg="$gray600" 
-                placeholder="Nova senha" 
-                isPassword={true} 
-                onChange={onChange}
+              <Input
+                bg="$gray600"
+                placeholder="Nova senha"
+                isPassword={true}
+                onChangeText={onChange}
+                value={value}
                 errorMessage={errors.newPassword?.message}
               />
             )}
             name="newPassword"
           />
 
-          <Controller 
+          <Controller
             control={control}
             render={({field: {onChange, value}}) => (
-              <Input 
-                bg="$gray600" 
-                placeholder="Confirmar nova senha" 
-                isPassword={true} 
-                onChange={onChange}
+              <Input
+                bg="$gray600"
+                placeholder="Confirmar nova senha"
+                isPassword={true}
+                onChangeText={onChange}
+                value={value}
                 errorMessage={errors.confirmNewPassword?.message}
               />
             )}
             name="confirmNewPassword"
           />
-        
+
          <View mt={16}>
 
           <Button title="Atualizar" onPress={handleSubmit(handleProfileUpdate)} />
