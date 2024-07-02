@@ -7,18 +7,29 @@ import { useState } from "react";
 import ContentLoader,{Circle} from "react-content-loader/native";
 import { TouchableOpacity, useWindowDimensions } from "react-native";
 
+import * as yup from "yup";
+
 import * as ImagePicker from 'expo-image-picker';
 import { ToastCustom } from "@components/ToastCustom";
 import { Controller, useForm } from "react-hook-form";
 import { useAuth } from "@hooks/useAuth";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 type ProfileFormData = {
   name: string;
   email: string;
-  password: string;
-  newPassword: string;
-  confirmNewPassword: string;
+  password?: string | null;
+  newPassword?: string | null;
+  confirmNewPassword?: string | null;
 }
+
+const profileSchema = yup.object().shape({
+  name: yup.string().required("Nome é obrigatório"),
+  email: yup.string().email("E-mail inválido").required("E-mail é obrigatório"),
+  password: yup.string().min(6, "Mínimo de 6 caracteres").nullable().transform(value => !!value ? value : undefined),
+  newPassword: yup.string().min(6, "Mínimo de 6 caracteres").nullable().transform(value => !!value ? value : undefined),
+  confirmNewPassword: yup.string().oneOf([yup.ref('newPassword')], 'As senhas devem ser iguais.').nullable().transform(value => !!value ? value : undefined),
+});
 
 export function Profile() {
   const { width } = useWindowDimensions();
@@ -29,11 +40,12 @@ export function Profile() {
 
   const toast = useToast();
   const {user} = useAuth();
-  const { control,handleSubmit } = useForm<ProfileFormData>({
+  const { control,handleSubmit,formState: {errors} } = useForm<ProfileFormData>({
     defaultValues: {
       name: user.name,
       email: user.email,
-    }
+    },
+    resolver: yupResolver(profileSchema)
   });
 
   async function handleUserPhotoSelect(){
@@ -120,6 +132,7 @@ export function Profile() {
               placeholder="Nome"
               onChangeText={onChange}
               value={value}
+              errorMessage={errors.name?.message}
             />
           )}
           name="name"
@@ -134,6 +147,7 @@ export function Profile() {
               isDisabled={true}
               onChangeText={onChange}
               value={value}
+              errorMessage={errors.email?.message}
             />
           )}
           name="email"
@@ -154,6 +168,7 @@ export function Profile() {
                 placeholder="Senha Antiga" 
                 isPassword={true} 
                 onChange={onChange}
+                errorMessage={errors.password?.message}
               />
             )}
             name="password"
@@ -167,6 +182,7 @@ export function Profile() {
                 placeholder="Nova senha" 
                 isPassword={true} 
                 onChange={onChange}
+                errorMessage={errors.newPassword?.message}
               />
             )}
             name="newPassword"
@@ -180,6 +196,7 @@ export function Profile() {
                 placeholder="Confirmar nova senha" 
                 isPassword={true} 
                 onChange={onChange}
+                errorMessage={errors.confirmNewPassword?.message}
               />
             )}
             name="confirmNewPassword"
