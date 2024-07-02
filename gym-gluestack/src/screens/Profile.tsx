@@ -9,6 +9,16 @@ import { TouchableOpacity, useWindowDimensions } from "react-native";
 
 import * as ImagePicker from 'expo-image-picker';
 import { ToastCustom } from "@components/ToastCustom";
+import { Controller, useForm } from "react-hook-form";
+import { useAuth } from "@hooks/useAuth";
+
+type ProfileFormData = {
+  name: string;
+  email: string;
+  password: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
 
 export function Profile() {
   const { width } = useWindowDimensions();
@@ -18,6 +28,13 @@ export function Profile() {
   const[photoUri, setPhotoUri] = useState("https://avatars.githubusercontent.com/u/20859616?s=400&v=4");
 
   const toast = useToast();
+  const {user} = useAuth();
+  const { control } = useForm<ProfileFormData>({
+    defaultValues: {
+      name: user.name,
+      email: user.email,
+    }
+  });
 
   async function handleUserPhotoSelect(){
     try{
@@ -90,8 +107,32 @@ export function Profile() {
           </Text>
         </TouchableOpacity>
 
-        <Input bg="$gray600" placeholder="Nome"  />
-        <Input bg="$gray600" placeholder="E-mail" isDisabled={true} />
+        <Controller 
+          control={control}
+          render={({field: {onChange, value}}) => (
+            <Input
+              bg="$gray600"
+              placeholder="Nome"
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="name"
+        />
+
+        <Controller 
+          control={control}
+          render={({field: {onChange, value}}) => (
+            <Input
+              bg="$gray600"
+              placeholder="E-mail"
+              isDisabled={true}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="email"
+        />
 
         </Center>
 
