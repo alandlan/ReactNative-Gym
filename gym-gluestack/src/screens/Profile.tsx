@@ -29,7 +29,7 @@ export function Profile() {
 
   const toast = useToast();
   const {user} = useAuth();
-  const { control } = useForm<ProfileFormData>({
+  const { control,handleSubmit } = useForm<ProfileFormData>({
     defaultValues: {
       name: user.name,
       email: user.email,
@@ -73,6 +73,11 @@ export function Profile() {
       console.log(error);
     }
   }
+
+  async function handleProfileUpdate(data: ProfileFormData){
+    console.log(data);
+  }
+
 
   return (
     <VStack flex={1}> 
@@ -141,13 +146,48 @@ export function Profile() {
             Alterar senha
           </Heading>
 
-          <Input bg="$gray600" placeholder="Senha Antiga" isPassword={true} />
-          <Input bg="$gray600" placeholder="Nova senha" isPassword={true}/>
-          <Input bg="$gray600" placeholder="Confirmar nova senha" isPassword={true} />
+          <Controller 
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <Input 
+                bg="$gray600" 
+                placeholder="Senha Antiga" 
+                isPassword={true} 
+                onChange={onChange}
+              />
+            )}
+            name="password"
+          />
+          
+          <Controller 
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <Input 
+                bg="$gray600" 
+                placeholder="Nova senha" 
+                isPassword={true} 
+                onChange={onChange}
+              />
+            )}
+            name="newPassword"
+          />
+
+          <Controller 
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <Input 
+                bg="$gray600" 
+                placeholder="Confirmar nova senha" 
+                isPassword={true} 
+                onChange={onChange}
+              />
+            )}
+            name="confirmNewPassword"
+          />
         
          <View mt={16}>
 
-          <Button title="Atualizar" onPress={() => {}} />
+          <Button title="Atualizar" onPress={handleSubmit(handleProfileUpdate)} />
          </View>
         </VStack>
       </ScrollView>
