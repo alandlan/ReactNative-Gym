@@ -50,7 +50,7 @@ export function Profile() {
   const[photoUri, setPhotoUri] = useState("https://avatars.githubusercontent.com/u/20859616?s=400&v=4");
 
   const toast = useToast();
-  const {user} = useAuth();
+  const {user,updateUserProfile} = useAuth();
   const { control,handleSubmit,formState: {errors} } = useForm<ProfileFormData>({
     defaultValues: {
       name: user.name,
@@ -102,6 +102,11 @@ export function Profile() {
       setIsLoading(true);
 
       await api.put("/users", data);
+      
+      const userUpdated = user;
+      userUpdated.name = data.name;
+
+      await updateUserProfile(userUpdated);
 
       toast.show({
         placement: "bottom",
