@@ -2,7 +2,7 @@ import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { ScreenHeader } from "@components/ScreenHeader";
 import { UserPhoto } from "@components/UserPhoto";
-import { Center, ScrollView, VStack, Text, Heading, View,useToast } from "@gluestack-ui/themed";
+import { Center, ScrollView, VStack, Text, Heading, View,useToast, set } from "@gluestack-ui/themed";
 import { useState } from "react";
 import ContentLoader,{Circle} from "react-content-loader/native";
 import { TouchableOpacity, useWindowDimensions } from "react-native";
@@ -14,6 +14,8 @@ import { ToastCustom } from "@components/ToastCustom";
 import { Controller, useForm } from "react-hook-form";
 import { useAuth } from "@hooks/useAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { api } from "@services/api";
+import { AppError } from "@utils/AppError";
 
 type ProfileFormData = {
   name: string;
@@ -43,6 +45,7 @@ export function Profile() {
   const { width } = useWindowDimensions();
   const centerScreen = (width / 2) - 24;
 
+  const [isLoading, setIsLoading] = useState(false);
   const[photoIsLoading, setPhotoIsLoading] = useState(true);
   const[photoUri, setPhotoUri] = useState("https://avatars.githubusercontent.com/u/20859616?s=400&v=4");
 
@@ -95,7 +98,45 @@ export function Profile() {
   }
 
   async function handleProfileUpdate(data: ProfileFormData){
-    console.log(data);
+    try {
+      setIsLoading(true);
+
+      await api.put("/users", data);
+
+      toast.show({
+        placement: "bottom",
+        render: ({ id }) => {
+          const toastId = "toast-" + id
+          return (
+            <ToastCustom 
+              id={toastId} 
+              message="Perfil atualizado com sucesso!" 
+              type="success"
+            />
+          )
+        },
+      });
+    } catch (error) {
+
+      const isAppError = error instanceof AppError;
+      const description = isAppError ? error.message : "Erro no servidor. Tente novamente mais tarde!";
+      toast.show({
+        placement: "bottom",
+        render: ({ id }) => {
+          const toastId = "toast-" + id
+          return (
+            <ToastCustom 
+              id={toastId} 
+              message={description} 
+              type="error"
+            />
+          )
+        },
+      });
+      
+    }finally{
+      setIsLoading(false);
+    }
   }
 
 
@@ -215,7 +256,7 @@ export function Profile() {
 
          <View mt={16}>
 
-          <Button title="Atualizar" onPress={handleSubmit(handleProfileUpdate)} />
+          <Button title="Atualizar" onPress={handleSubmit(handleProfileUpdate)} isLoading={isLoading} />
          </View>
         </VStack>
       </ScrollView>
