@@ -7,7 +7,6 @@ import { Loading } from "@components/Loading";
 
 export function Routes(){
     const {user,isLoading } = useAuth();
-    console.log(user);
 
     const theme = DefaultTheme;
     theme.colors.background = "$gray700";

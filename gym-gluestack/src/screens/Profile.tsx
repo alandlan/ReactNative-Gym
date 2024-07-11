@@ -6,6 +6,7 @@ import { Center, ScrollView, VStack, Text, Heading, View,useToast, set } from "@
 import { useState } from "react";
 import ContentLoader,{Circle} from "react-content-loader/native";
 import { TouchableOpacity, useWindowDimensions } from "react-native";
+import React from 'react';
 
 import * as yup from "yup";
 
@@ -16,6 +17,8 @@ import { useAuth } from "@hooks/useAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { api } from "@services/api";
 import { AppError } from "@utils/AppError";
+
+import userPhotoDefault from "@assets/userPhotoDefault.png";
 
 type ProfileFormData = {
   name: string;
@@ -46,8 +49,7 @@ export function Profile() {
   const centerScreen = (width / 2) - 24;
 
   const [isLoading, setIsLoading] = useState(false);
-  const[photoIsLoading, setPhotoIsLoading] = useState(true);
-  const[photoUri, setPhotoUri] = useState("https://avatars.githubusercontent.com/u/20859616?s=400&v=4");
+  const[photoIsLoading, setPhotoIsLoading] = useState(false); 
 
   const toast = useToast();
   const {user,updateUserProfile} = useAuth();
@@ -59,8 +61,13 @@ export function Profile() {
     resolver: yupResolver(profileSchema)
   });
 
+  const avatarUrl = user.avatar ? 
+        {uri: `${api.defaults.baseURL}/avatar/${user.avatar}`} : 
+        userPhotoDefault;
+
   async function handleUserPhotoSelect(){
     try{
+      setPhotoIsLoading(true);
       const photoSelected = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
@@ -104,13 +111,15 @@ export function Profile() {
       const userPhotoUploadForm = new FormData();
       userPhotoUploadForm.append("avatar", photoFile);
 
-      await api.patch("/users/avatar", userPhotoUploadForm,{
+      const avatarUpdatedResponse = await api.patch("/users/avatar", userPhotoUploadForm,{
         headers: {
           "Content-Type": "multipart/form-data"
         }
       });
 
-      setPhotoUri(photo.uri);
+      const userUpdated = user;
+      userUpdated.avatar = avatarUpdatedResponse.data.avatar;
+      updateUserProfile(userUpdated);
 
       toast.show({
         placement: "bottom",
@@ -130,13 +139,14 @@ export function Profile() {
     }catch(error){
       console.log(error);
     }
+    finally{
+      setPhotoIsLoading(false);
+    }
   }
 
   async function handleProfileUpdate(data: ProfileFormData){
     try {
       setIsLoading(true);
-
-      console.log(data);
 
       await api.put("/users", data);
       
@@ -191,19 +201,19 @@ export function Profile() {
 
         <Center mt={16} px={24}>
 
-         {!photoIsLoading ? (
-
-            <ContentLoader
-              backgroundColor="#323238"
-              foregroundColor="#7C7C8A"
-            >
-              <Circle cx={centerScreen} cy="96" r="48" />
-            </ContentLoader>
+         {photoIsLoading ? (
+              <ContentLoader
+                backgroundColor="#323238"
+                foregroundColor="#7C7C8A"
+              >
+                <Circle cx={centerScreen} cy="132" r="48" />
+                
+              </ContentLoader>
 
          ): (
 
           <UserPhoto
-            source={{uri: photoUri}}
+            source={avatarUrl}
             alt="User photo"
             size={96}
           />
