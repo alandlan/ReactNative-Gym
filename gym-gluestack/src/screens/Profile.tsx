@@ -20,19 +20,19 @@ import { AppError } from "@utils/AppError";
 type ProfileFormData = {
   name: string;
   email: string;
+  old_password: string;
   password: string;
-  newPassword: string;
   confirmNewPassword: string;
 }
 
 const profileSchema = yup.object().shape({
   name: yup.string().required("Nome é obrigatório"),
   email: yup.string().email("E-mail inválido").required("E-mail é obrigatório"),
+  old_password: yup.string().nullable().min(6, "Senha deve ter no mínimo 6 caracteres").transform((value) => !!value ? value : null),
   password: yup.string().nullable().min(6, "Senha deve ter no mínimo 6 caracteres").transform((value) => !!value ? value : null),
-  newPassword: yup.string().nullable().min(6, "Senha deve ter no mínimo 6 caracteres").transform((value) => !!value ? value : null),
   confirmNewPassword: yup.string().nullable().transform((value) => !!value ? value : null)
-  .oneOf([yup.ref("newPassword"), null], "Senhas não conferem")
-  .when("newPassword", {
+  .oneOf([yup.ref("password"), null], "Senhas não conferem")
+  .when("password", {
     is: (Field: string) => Field, 
     then: (schema) =>
 			schema.nullable()
@@ -72,11 +72,13 @@ export function Profile() {
         return;
       }
 
+      const photo = photoSelected.assets[0];
+
       //get image size convert if null to int
-      const imageSize = photoSelected.assets[0].fileSize || 0;
+      const imageSize = photo.fileSize || 0;
 
       // if size more then 3mb block
-      if(imageSize || (imageSize / 1024 / 1024) > 3){
+      if(!imageSize || (imageSize / 1024 / 1024) > 3){
         return toast.show({
           placement: "bottom",
           render: ({ id }) => {
@@ -91,7 +93,17 @@ export function Profile() {
         });
       }
 
-      setPhotoUri(photoSelected.assets[0].uri);
+      const fileExtension = photo.uri.split(".").pop();
+
+      const photoFile = {
+        name: `${user.name}.${fileExtension}`.toLowerCase(),
+        uri: photo.uri,
+        type: `${photo.type}/${fileExtension}`,
+      }
+
+      console.log(photo);
+
+
     }catch(error){
       console.log(error);
     }
@@ -100,6 +112,8 @@ export function Profile() {
   async function handleProfileUpdate(data: ProfileFormData){
     try {
       setIsLoading(true);
+
+      console.log(data);
 
       await api.put("/users", data);
       
@@ -223,10 +237,10 @@ export function Profile() {
                 isPassword={true}
                 onChangeText={onChange}
                 value={value}
-                errorMessage={errors.password?.message}
+                errorMessage={errors.old_password?.message}
               />
             )}
-            name="password"
+            name="old_password"
           />
 
           <Controller
@@ -238,10 +252,10 @@ export function Profile() {
                 isPassword={true}
                 onChangeText={onChange}
                 value={value}
-                errorMessage={errors.newPassword?.message}
+                errorMessage={errors.password?.message}
               />
             )}
-            name="newPassword"
+            name="password"
           />
 
           <Controller
