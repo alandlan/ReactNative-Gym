@@ -99,9 +99,32 @@ export function Profile() {
         name: `${user.name}.${fileExtension}`.toLowerCase(),
         uri: photo.uri,
         type: `${photo.type}/${fileExtension}`,
-      }
+      } as any;
 
-      console.log(photo);
+      const userPhotoUploadForm = new FormData();
+      userPhotoUploadForm.append("avatar", photoFile);
+
+      await api.patch("/users/avatar", userPhotoUploadForm,{
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
+
+      setPhotoUri(photo.uri);
+
+      toast.show({
+        placement: "bottom",
+        render: ({ id }) => {
+          const toastId = "toast-" + id
+          return (
+            <ToastCustom 
+              id={toastId} 
+              message="Foto de perfil atualizada com sucesso!" 
+              type="success"
+            />
+          )
+        },
+      });
 
 
     }catch(error){
