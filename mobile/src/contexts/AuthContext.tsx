@@ -45,8 +45,6 @@ export function AuthContextProvider({children}: AuthContextProviderProps){
         try {
             const { data } = await api.post('/sessions',{email,password});
 
-            console.log("DATA => ",data);
-
             if(data.user && data.token && data.refresh_token){
                 setIsLoading(true);
 

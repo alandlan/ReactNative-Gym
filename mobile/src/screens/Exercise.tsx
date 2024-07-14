@@ -69,7 +69,6 @@ export function Exercise() {
       navigation.navigate('History');
 
     }catch(error) {
-      console.log(error);
       toast.show({
         placement: "bottom",
         render: ({ id }) => {

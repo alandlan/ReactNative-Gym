@@ -23,14 +23,10 @@ let isRefreshing = false;
 api.registerInterceptTokenManager = signOut => {
     const interceptTokenManager = api.interceptors.response.use(response => response, async (requestError) => {
         
-        console.log("ERROR => ",requestError);
-        
         if(requestError?.response?.status === 401){
             if(requestError.response.data?.message === "token.expired" || requestError.response.data?.message === "token.invalid"){
                 const {refresh_token} = await getToken();
 
-                console.log("REFRESH TOKEN => ",refresh_token);
-                
                 if(!refresh_token){
                     signOut();
                     return Promise.reject(requestError);
@@ -59,8 +55,6 @@ api.registerInterceptTokenManager = signOut => {
                     try{
 
                         const { data } = await api.post('/sessions/refresh-token', {refresh_token});
-
-                        console.log("TOKEN => ",data);
 
                         if(data.token && data.refresh_token){
                             await saveToken({token: data.token, refresh_token: data.refresh_token});
