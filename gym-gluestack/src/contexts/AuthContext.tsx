@@ -32,10 +32,10 @@ export function AuthContextProvider({children}: AuthContextProviderProps){
         }
     }
 
-    async function saveUserAndToken(userData: UserDTO, token: string){
+    async function saveUserAndToken(userData: UserDTO, token: string, refresh_token: string){
         try{
             await saveUser(userData);
-            await saveToken(token);
+            await saveToken({token,refresh_token});
         }catch(error){
             throw error;
         }
@@ -45,10 +45,10 @@ export function AuthContextProvider({children}: AuthContextProviderProps){
         try {
             const { data } = await api.post('/sessions',{email,password});
 
-            if(data.user && data.token){
+            if(data.user && data.token && data.refresh_token){
                 setIsLoading(true);
 
-                await saveUserAndToken(data.user,data.token);
+                await saveUserAndToken(data.user,data.token,data.refresh_token);
 
                 updateUserAndToken(data.user,data.token);
             }
@@ -65,7 +65,7 @@ export function AuthContextProvider({children}: AuthContextProviderProps){
             setIsLoading(true);
 
             const userLogged = await getUser();
-            const token = await getToken();
+            const {token} = await getToken();
 
             if(token && userLogged){
                 updateUserAndToken(userLogged,token);
