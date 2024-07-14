@@ -20,6 +20,13 @@ export async function getToken() {
     try {
         const response = await AsyncStorage.getItem(AUTH_TOKEN);
 
+        // const token = response;
+        // const refresh_token = response;
+
+        // return {token,refresh_token};
+
+        console.log("TOKEN => ",response);
+
         const {token,refresh_token}: AuthTokenProps = response ? JSON.parse(response) : {};
 
         return {token,refresh_token};
